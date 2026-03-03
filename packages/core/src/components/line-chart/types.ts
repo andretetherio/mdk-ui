@@ -19,7 +19,7 @@ export type LightWeightLineChartProps = {
   /**
    * Mutable ref to hold the LightWeightCharts reference
    */
-  chartRef: MutableRefObject<IChartApi | null>
+  chartRef?: MutableRefObject<IChartApi | null>
   /**
    * Data of the chart
    */
@@ -101,4 +101,12 @@ export type LightWeightLineChartProps = {
    * Starts the value axis at 0
    */
   beginAtZero?: boolean
+  /**
+   * Show a marker on the line
+   */
+  showPointMarkers?: boolean
+  /**
+   * Controls the height of the chart. Default: 240
+   */
+  height?: number
 }
