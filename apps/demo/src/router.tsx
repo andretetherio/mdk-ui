@@ -4,7 +4,7 @@ import { createBrowserRouter } from 'react-router-dom'
 import App from './App'
 import { ListViewFilterExample } from './examples/list-view-filter-example'
 import { ChartWrapperPage } from './pages'
-import { MosaicPageDemo } from './pages/mosaic.page'
+import { MosaicPageDemo } from './pages/mosaic-page/mosaic.page'
 import { StateExportsPage } from './pages/stats-export-page'
 
 // Lazy load ALL pages to eliminate unused JavaScript and CSS

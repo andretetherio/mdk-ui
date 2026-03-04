@@ -159,8 +159,8 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
         }
 
         // Show pages around current
-        const start = Math.max(2, current - 2)
-        const end = Math.min(totalPages - 1, current + 2)
+        const start = Math.max(2, current - 1)
+        const end = Math.min(totalPages - 1, current + 1)
 
         for (let i = start; i <= end; i++) {
           pages.push({ type: 'page', value: i })
@@ -200,20 +200,19 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
         {renderTotal()}
 
         <div className="mining-sdk-pagination__controls">
-          {/* Previous Button */}
-          <Button
-            variant="secondary"
-            size={size}
-            disabled={!hasPrev || disabled}
-            onClick={() => handlePageChange(current - 1)}
-            className="mining-sdk-pagination__button mining-sdk-pagination__button--prev"
-            aria-label="Previous page"
-          >
-            <ChevronLeftIcon />
-          </Button>
-
           {/* Page Numbers */}
           <div className="mining-sdk-pagination__pages">
+            {/* Previous Button */}
+            <Button
+              variant="secondary"
+              size={size}
+              disabled={!hasPrev || disabled}
+              onClick={() => handlePageChange(current - 1)}
+              className="mining-sdk-pagination__button mining-sdk-pagination__button--prev"
+              aria-label="Previous page"
+            >
+              <ChevronLeftIcon />
+            </Button>
             {getPageNumbers().map((item, index) => {
               if (item.type === 'ellipsis') {
                 return (
@@ -254,19 +253,18 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
                 </Button>
               )
             })}
+            {/* Next Button */}
+            <Button
+              variant="secondary"
+              size={size}
+              disabled={!hasNext || disabled}
+              onClick={() => handlePageChange(current + 1)}
+              className="mining-sdk-pagination__button mining-sdk-pagination__button--next"
+              aria-label="Next page"
+            >
+              <ChevronRightIcon />
+            </Button>
           </div>
-
-          {/* Next Button */}
-          <Button
-            variant="secondary"
-            size={size}
-            disabled={!hasNext || disabled}
-            onClick={() => handlePageChange(current + 1)}
-            className="mining-sdk-pagination__button mining-sdk-pagination__button--next"
-            aria-label="Next page"
-          >
-            <ChevronRightIcon />
-          </Button>
         </div>
 
         {/* Page Size Changer */}
