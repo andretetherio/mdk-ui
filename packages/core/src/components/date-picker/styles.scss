@@ -20,10 +20,10 @@
   width: fit-content;
   padding: 8px 12px;
   min-height: 40px;
-  background-color: var(--mining-sdk-date-picker-bg, #000000);
-  border: 1px solid var(--mining-sdk-date-picker-border, #ffffff33);
+  background-color: var(--mining-sdk-popover-bg);
+  border: 1px solid var(--mining-sdk-button-secondary-border);
   border-radius: 0;
-  color: var(--mining-sdk-date-picker-text, #ffffff);
+  color: var(--mining-sdk-color-white);
   font-family: var(--font-mono);
   font-size: 14px;
   font-weight: 400;
@@ -34,13 +34,13 @@
     color 0.2s;
 
   &:hover:not(:disabled) {
-    background-color: var(--mining-sdk-date-picker-hover-bg, #f7931a33);
-    border-color: var(--mining-sdk-date-picker-hover-border, transparent);
-    color: var(--mining-sdk-date-picker-hover-text, #f7931a);
+    background-color: rgba(var(--mining-sdk-color-primary-rgb), 0.2);
+    border-color: var(--mining-sdk-color-primary);
+    color: var(--mining-sdk-color-primary);
   }
 
   &:focus-visible {
-    outline: 2px solid var(--mining-sdk-date-picker-focus, #f7931a);
+    outline: 2px solid var(--mining-sdk-color-primary);
     outline-offset: 2px;
   }
 
@@ -50,9 +50,9 @@
   }
 
   &[data-state='open'] {
-    background-color: var(--mining-sdk-date-picker-hover-bg, #f7931a33);
-    border-color: var(--mining-sdk-date-picker-hover-border, transparent);
-    color: var(--mining-sdk-date-picker-hover-text, #f7931a);
+    background-color: rgba(var(--mining-sdk-color-primary-rgb), 0.2);
+    border-color: var(--mining-sdk-color-primary);
+    color: var(--mining-sdk-color-primary);
   }
 }
 
@@ -79,18 +79,19 @@
 /* ===== Calendar Base Styles (react-day-picker v9) ===== */
 .mining-sdk-date-picker__calendar {
   font-family: var(--font-mono);
-  color: var(--mining-sdk-date-picker-text, #ffffff);
+  color: var(--mining-sdk-color-white);
 
   /* Root */
   &.rdp-root {
-    --rdp-accent-color: #f7931a;
-    --rdp-accent-background-color: #f7931a33;
+    width: 100%;
+    --rdp-accent-color: var(--mining-sdk-color-primary);
+    --rdp-accent-background-color: rgba(var(--mining-sdk-color-primary-rgb), 0.2);
   }
 
   /* Navigation bar */
   .rdp-nav {
     @include flex_align;
-    
+
     gap: 4px;
     position: absolute;
     top: 12px;
@@ -101,14 +102,14 @@
   .rdp-button_previous,
   .rdp-button_next {
     @include inline_flex_align;
-    
+
     width: 28px;
     height: 28px;
     justify-content: center;
-    background-color: var(--mining-sdk-date-picker-nav-bg, #0f0f0f);
-    border: 1px solid var(--mining-sdk-date-picker-border, #ffffff1a);
+    background-color: var(--mining-sdk-color-surface);
+    border: 1px solid var(--mining-sdk-button-secondary-border);
     border-radius: 0;
-    color: var(--mining-sdk-date-picker-text, #ffffff);
+    color: var(--mining-sdk-color-white);
     cursor: pointer;
     padding: 0;
     transition:
@@ -116,8 +117,8 @@
       border-color 0.2s;
 
     &:hover:not(:disabled) {
-      background-color: var(--mining-sdk-date-picker-nav-hover-bg, #161514);
-      border-color: var(--mining-sdk-date-picker-hover-border, #ffffff33);
+      background-color: var(--mining-sdk-color-obsidian);
+      border-color: var(--mining-sdk-color-primary);
     }
 
     &:disabled {
@@ -135,12 +136,14 @@
   .rdp-caption_label {
     font-size: 14px;
     font-weight: 500;
-    color: var(--mining-sdk-date-picker-text, #ffffff);
+    color: var(--mining-sdk-color-white);
   }
 
   /* Months container */
   .rdp-months {
     display: flex;
+    flex: 1;
+    width: 100%;
     /* Keep calendars side-by-side - do NOT wrap */
     flex-wrap: nowrap;
     gap: 16px;
@@ -150,8 +153,9 @@
   }
 
   .rdp-month {
-    border: 1px solid var(--mining-sdk-date-picker-border, #ffffff1a);
-    background-color: var(--mining-sdk-date-picker-month-bg, #00000080);
+    flex: 1;
+    border: 1px solid var(--mining-sdk-button-secondary-border);
+    background-color: rgba(var(--mining-sdk-color-black), 0.5);
     padding: 12px;
     border-radius: 0;
     position: relative;
@@ -179,7 +183,7 @@
     text-align: center;
     font-size: 12px;
     font-weight: 400;
-    color: var(--mining-sdk-date-picker-weekday, #ffffff80);
+    color: var(--mining-sdk-color-text-disabled);
     text-transform: uppercase;
     padding: 0;
   }
@@ -204,7 +208,7 @@
   /* Day button (the actual clickable element) */
   .rdp-day_button {
     @include inline_flex_align;
-    
+
     justify-content: center;
     width: 32px;
     height: 100%;
@@ -215,7 +219,7 @@
     font-family: inherit;
     font-size: 14px;
     font-weight: 400;
-    color: var(--mining-sdk-date-picker-text, #ffffff);
+    color: var(--mining-sdk-color-white);
     border-radius: 0;
     cursor: pointer;
     transition:
@@ -223,11 +227,11 @@
       color 0.15s;
 
     &:hover {
-      background-color: var(--mining-sdk-date-picker-day-hover-bg, #ffffff1a);
+      background-color: var(--mining-sdk-color-white-transparent);
     }
 
     &:focus-visible {
-      outline: 2px solid var(--mining-sdk-date-picker-focus, #f7931a);
+      outline: 2px solid var(--mining-sdk-color-primary);
       outline-offset: -1px;
       z-index: 1;
     }
@@ -235,23 +239,23 @@
 
   /* Selected day */
   .rdp-selected .rdp-day_button {
-    background-color: var(--mining-sdk-date-picker-selected-bg, #f7931a);
-    color: var(--mining-sdk-date-picker-selected-text, #000000);
+    background-color: var(--mining-sdk-color-primary);
+    color: var(--mining-sdk-button-primary-text);
     font-weight: 500;
 
     &:hover {
-      background-color: var(--mining-sdk-date-picker-selected-hover-bg, #c4730f);
+      background-color: var(--mining-sdk-color-primary);
     }
   }
 
   /* Today */
   .rdp-today .rdp-day_button {
     font-weight: 600;
-    color: var(--mining-sdk-date-picker-today, #f7931a);
+    color: var(--mining-sdk-color-primary);
   }
 
   .rdp-today.rdp-selected .rdp-day_button {
-    color: var(--mining-sdk-date-picker-selected-text, #000000);
+    color: var(--mining-sdk-button-primary-text);
   }
 
   /* Outside current month */
@@ -267,27 +271,27 @@
 
   /* Range selection styles */
   .rdp-range_start .rdp-day_button {
-    background-color: var(--mining-sdk-date-picker-selected-bg, #f7931a);
-    color: var(--mining-sdk-date-picker-selected-text, #000000);
+    background-color: var(--mining-sdk-color-primary);
+    color: var(--mining-sdk-button-primary-text);
     font-weight: 500;
   }
 
   .rdp-range_end .rdp-day_button {
-    background-color: var(--mining-sdk-date-picker-selected-bg, #f7931a);
-    color: var(--mining-sdk-date-picker-selected-text, #000000);
+    background-color: var(--mining-sdk-color-primary);
+    color: var(--mining-sdk-button-primary-text);
     font-weight: 500;
   }
 
   .rdp-range_middle .rdp-day_button {
-    background-color: var(--mining-sdk-date-picker-range-bg, #f7931a33);
-    color: var(--mining-sdk-date-picker-text, #ffffff);
+    background-color: rgba(var(--mining-sdk-color-primary-rgb), 0.2);
+    color: var(--mining-sdk-color-white);
   }
 
   /* Dropdown (year/month selectors if used) */
   .rdp-dropdown {
-    background-color: var(--mining-sdk-date-picker-dropdown-bg, #000000);
-    border: 1px solid var(--mining-sdk-date-picker-border, #ffffff1a);
-    color: var(--mining-sdk-date-picker-text, #ffffff);
+    background-color: var(--mining-sdk-popover-bg);
+    border: 1px solid var(--mining-sdk-button-secondary-border);
+    color: var(--mining-sdk-color-white);
     padding: 4px;
     border-radius: 0;
   }
@@ -299,13 +303,13 @@
   width: auto !important;
   max-width: none !important;
   padding: 16px;
-  background-color: var(--mining-sdk-date-picker-modal-bg, #0f0f0f);
-  border: 1px solid var(--mining-sdk-date-picker-border, #ffffff1a);
+  background-color: var(--mining-sdk-color-surface);
+  border: 1px solid var(--mining-sdk-button-secondary-border);
 }
 
 .mining-sdk-date-picker__modal-header {
   padding-bottom: 16px;
-  border-bottom: 1px solid var(--mining-sdk-date-picker-border, #ffffff1a);
+  border-bottom: 1px solid var(--mining-sdk-button-secondary-border);
   margin-bottom: 16px;
 }
 
@@ -314,13 +318,13 @@
   font-size: 18px;
   font-weight: 400;
   line-height: 18px;
-  color: var(--mining-sdk-date-picker-text, #ffffff);
+  color: var(--mining-sdk-color-white);
   margin: 0;
 }
 
 .mining-sdk-date-picker__modal-body {
-  @include flex_column;
-  
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 16px;
 }
 
@@ -334,20 +338,24 @@
 
 /* ===== Meta Section (Summary + Presets) ===== */
 .mining-sdk-date-picker__meta {
-  @include flex_column;
-  
+  @include flex_align;
+
   gap: 16px;
+  min-width: 0;
 }
 
 .mining-sdk-date-picker__summary {
   @include flex_column;
-  
+
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
   gap: 8px;
   padding: 12px;
-  background-color: var(--mining-sdk-date-picker-summary-bg, #161514);
-  border: 1px solid var(--mining-sdk-date-picker-border, #ffffff1a);
+  background-color: var(--mining-sdk-color-obsidian);
+  border: 1px solid var(--mining-sdk-button-secondary-border);
   font-size: 14px;
-  color: var(--mining-sdk-date-picker-muted, #ffffff80);
+  color: var(--mining-sdk-color-text-disabled);
 }
 
 .mining-sdk-date-picker__summary-title {
@@ -359,13 +367,13 @@
 
 .mining-sdk-date-picker__summary-dates {
   @include flex_align;
-  
+
   gap: 8px;
   flex-wrap: wrap;
 }
 
 .mining-sdk-date-picker__summary-date {
-  color: var(--mining-sdk-date-picker-highlight, #f7931a);
+  color: var(--mining-sdk-color-primary);
   font-weight: 500;
 }
 
@@ -376,7 +384,17 @@
 .mining-sdk-date-picker__presets {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  flex: 1;
+  min-width: 0;
   gap: 4px;
+  padding: 12px;
+  white-space: nowrap;
+  background-color: var(--mining-sdk-color-obsidian);
+  border: 1px solid var(--mining-sdk-button-secondary-border);
+
+  button {
+    padding: 0;
+  }
 }
 
 /* ===== Modal Footer ===== */
@@ -386,7 +404,7 @@
   gap: 16px;
   margin-top: 16px;
   padding-top: 16px;
-  border-top: 1px solid var(--mining-sdk-date-picker-border, #ffffff1a);
+  border-top: 1px solid var(--mining-sdk-button-secondary-border);
 
   button {
     flex: 1;
@@ -420,7 +438,7 @@
     line-height: 14px;
     letter-spacing: 1.32px;
     text-transform: uppercase;
-    color: var(--mining-sdk-date-picker-label, #ffffff80);
+    color: var(--mining-sdk-color-text-disabled);
   }
 
   .rdp-month:not(:last-child)::before {
@@ -440,4 +458,3 @@
     }
   }
 }
-
