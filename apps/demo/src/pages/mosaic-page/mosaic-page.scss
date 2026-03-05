@@ -11,136 +11,145 @@
     border-bottom: 2px solid var(--mining-sdk-color-primary);
     border-radius: 8px;
     flex-wrap: wrap;
+
+    &-stats {
+      display: flex;
+      gap: 2rem;
+    }
   }
+  &__metric {
+    &-card {
+      @include flex_column;
 
-  &__header-stats {
-    display: flex;
-    gap: 2rem;
-  }
+      padding: 1.5rem;
+      border-radius: 8px;
+      border: 1px solid var(--mining-sdk-button-secondary-border);
 
-  &__metric-card {
-    @include flex_column;
+      &--scrollable {
+        min-height: 30vh;
+        overflow-y: auto;
+      }
+    }
 
-    padding: 1.5rem;
-    border-radius: 8px;
-    border: 1px solid var(--mining-sdk-button-secondary-border);
+    &-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin: 0.5rem 0;
+      color: var(--mining-sdk-color-primary);
+      line-height: 1;
+    }
 
-    &--scrollable {
-      min-height: 30vh;
-      overflow-y: auto;
+    &-change {
+      font-size: 0.875rem;
+      margin: 0.5rem 0 0 0;
     }
   }
 
-  &__metric-value {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin: 0.5rem 0;
-    color: var(--mining-sdk-color-primary);
-    line-height: 1;
-  }
-
-  &__metric-change {
-    font-size: 0.875rem;
-    margin: 0.5rem 0 0 0;
-  }
-
-  &__workers-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  &__workers-header {
-    display: flex;
-    border-bottom: 1px solid var(--mining-sdk-button-secondary-border);
-    padding: 0.5rem 0;
-    font-weight: 600;
-    font-size: 0.875rem;
-  }
-
-  &__workers-row {
-    display: flex;
-    border-top: 1px solid var(--mining-sdk-button-secondary-border);
-    padding: 0.5rem 0;
-    font-size: 0.875rem;
-    align-items: center;
-  }
-
-  &__workers-col {
-    &--name {
-      flex: 2;
+  &__workers {
+    &-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
     }
 
-    &--hashrate {
-      flex: 2;
+    &-header {
+      display: flex;
+      border-bottom: 1px solid var(--mining-sdk-button-secondary-border);
+      padding: 0.5rem 0;
+      font-weight: 600;
+      font-size: 0.875rem;
     }
 
-    &--status {
-      flex: 1;
+    &-row {
+      @include flex_align;
+
+      border-top: 1px solid var(--mining-sdk-button-secondary-border);
+      padding: 0.5rem 0;
+      font-size: 0.875rem;
+    }
+
+    &-col {
+      &--name {
+        flex: 2;
+      }
+
+      &--hashrate {
+        flex: 2;
+      }
+
+      &--status {
+        flex: 1;
+      }
     }
   }
 
   /* Chart */
-  &__chart-container {
-    margin-top: 1rem;
-    flex: 1;
-  }
+  &__chart {
+    &-container {
+      margin-top: 1rem;
+      flex: 1;
+    }
 
-  &__chart-svg {
-    display: block;
-    border-radius: 4px;
-    padding: 1rem;
-  }
-
-  &__alerts-container {
-    margin-top: 1rem;
-    flex: 1;
-  }
-
-  &__alert-card {
-    margin-bottom: 0.75rem;
-
-    &--last {
-      margin-bottom: 0;
+    &-svg {
+      display: block;
+      border-radius: 4px;
+      padding: 1rem;
     }
   }
 
-  &__alert-title {
-    display: block;
-    margin-bottom: 0.25rem;
-    font-size: 0.875rem;
+  &__alerts {
+    &-container {
+      margin-top: 1rem;
+      flex: 1;
+    }
+
+    &__alert-card {
+      margin-bottom: 0.75rem;
+
+      &--last {
+        margin-bottom: 0;
+      }
+    }
+
+    &__alert-title {
+      display: block;
+      margin-bottom: 0.25rem;
+      font-size: 0.875rem;
+    }
+
+    &__alert-description {
+      margin: 0 0 0.25rem 0;
+      font-size: 0.875rem;
+    }
+
+    &-time {
+      font-size: 0.75rem;
+    }
   }
 
-  &__alert-description {
-    margin: 0 0 0.25rem 0;
-    font-size: 0.875rem;
-  }
+  &__earnings {
+    &-grid {
+      display: grid;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
 
-  &__alert-time {
-    font-size: 0.75rem;
-  }
+    &-item {
+      padding: 1rem;
+      border-radius: 4px;
+    }
 
-  &__earnings-grid {
-    display: grid;
-    gap: 1rem;
-    margin-top: 1rem;
-  }
+    &-label {
+      font-size: 0.75rem;
+      margin: 0 0 0.5rem 0;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
 
-  &__earnings-item {
-    padding: 1rem;
-    border-radius: 4px;
-  }
-
-  &__earnings-label {
-    font-size: 0.75rem;
-    margin: 0 0 0.5rem 0;
-    text-transform: uppercase;
-    font-weight: 600;
-  }
-
-  &__earnings-value {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin: 0;
+    &-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0;
+    }
   }
 }

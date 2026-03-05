@@ -6,9 +6,7 @@
     @include inline_flex_align;
 
     position: relative;
-  }
 
-  &__trigger {
     .mining-sdk-button {
       border-color: var(--mining-sdk-button-secondary-border-visible);
       transition:
@@ -41,71 +39,14 @@
 
   &__content {
     padding: 0;
-
-    .mining-sdk-cascader {
-      border: none;
-      background: transparent;
-    }
-
-    // Override TagInput styles for filter context
-    .mining-sdk-tag-input__wrapper {
-      border: 1px solid var(--mining-sdk-border-default-color);
-      border-radius: 0;
-      margin-top: 8px;
-      background-color: var(--mining-sdk-color-obsidian);
-      padding: 0.25rem;
-      width: 300px;
-      .mining-sdk-tag-input__input {
-        padding: 0 0.25rem;
-      }
-
-      &:focus-within {
-        border-color: var(--mining-sdk-color-primary);
-        box-shadow: 0 0 0 2px rgba(var(--mining-sdk-color-primary-rgb), 0.29);
-      }
-    }
-
-    // Make cascader panels full width
-    .mining-sdk-cascader__panels {
-      border: none;
-    }
-
-    .mining-sdk-cascader__panel {
-      &--categories {
-        border-right: 1px solid var(--mining-sdk-border-default-color);
-      }
-    }
   }
 }
 
 /* Portaled dropdown: Cascader panels are rendered inside TagInput's Popover (outside __content). */
-.mining-sdk-tag-input__dropdown:has(.mining-sdk-list-view-filter__cascader-dropdown) {
-  background-color: var(--mining-sdk-color-obsidian);
-  min-width: 0;
-  width: fit-content;
-}
-
-.mining-sdk-list-view-filter__cascader-dropdown {
-  width: fit-content;
-
-  .mining-sdk-cascader__panel {
-    min-height: 0;
-  }
-
-  .mining-sdk-cascader__panel--categories,
-  .mining-sdk-cascader__panel--options,
-  .mining-sdk-cascader__panel--search {
-    background-color: var(--mining-sdk-color-obsidian);
-  }
-
-  .mining-sdk-cascader__panel--options {
-    min-width: 180px;
-  }
-}
-
-// Global popover styles for filter
-.mining-sdk-popover-content {
-  &:has(.mining-sdk-list-view-filter__dropdown) {
-    padding: 0;
+.mining-sdk-cascader {
+  border: none;
+  background: transparent;
+  &__panels {
+    border: none;
   }
 }

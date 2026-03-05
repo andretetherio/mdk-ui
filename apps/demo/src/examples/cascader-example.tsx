@@ -1,14 +1,8 @@
 import type { CascaderOption, CascaderValue } from '@mining-sdk/core'
 import { Card, Cascader } from '@mining-sdk/core'
 import * as React from 'react'
-/**
- * Complete Cascader Demo Component
- * Demonstrates all features and use cases with working examples
- */
+
 export const CascaderExample = (): JSX.Element => {
-  // ============================================================
-  // Example 1: Single Select - Location Picker
-  // ============================================================
   const [singleValue, setSingleValue] = React.useState<CascaderValue>(['china', 'beijing'])
 
   const locationOptions: CascaderOption[] = [
@@ -54,9 +48,6 @@ export const CascaderExample = (): JSX.Element => {
     },
   ]
 
-  // ============================================================
-  // Example 2: Multiple Select - Product Categories
-  // ============================================================
   const categoryOptions: CascaderOption[] = [
     {
       value: 'electronics',
@@ -91,9 +82,6 @@ export const CascaderExample = (): JSX.Element => {
     },
   ]
 
-  // ============================================================
-  // Example 3: Alert Filters (Real-world use case)
-  // ============================================================
   const [filterValue, setFilterValue] = React.useState<CascaderValue[]>([
     ['severity', 'critical'],
     ['status', 'active'],
@@ -144,9 +132,6 @@ export const CascaderExample = (): JSX.Element => {
     },
   ]
 
-  // ============================================================
-  // Example 5: With Disabled Options
-  // ============================================================
   const [statusValue, setStatusValue] = React.useState<CascaderValue[]>([])
 
   const statusOptions: CascaderOption[] = [
@@ -170,14 +155,7 @@ export const CascaderExample = (): JSX.Element => {
     },
   ]
 
-  // ============================================================
-  // Example 6: Empty State
-  // ============================================================
   const [emptyValue, setEmptyValue] = React.useState<CascaderValue[]>([])
-
-  // ============================================================
-  // Example 7: Disabled Cascader
-  // ============================================================
   const [disabledValue] = React.useState<CascaderValue>(['china', 'beijing'])
 
   return (
@@ -251,15 +229,6 @@ export const CascaderExample = (): JSX.Element => {
                     </div>
                   )
                 })}
-              </div>
-              <div className="filter-sql">
-                <strong>SQL-like Query:</strong>
-                <code>
-                  WHERE{' '}
-                  {filterValue
-                    .map((item) => `${String(item[0])} = '${String(item[1])}'`)
-                    .join(' AND ')}
-                </code>
               </div>
             </div>
           </div>

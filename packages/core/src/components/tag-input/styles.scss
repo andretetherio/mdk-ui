@@ -41,7 +41,7 @@
   font-family: inherit;
   color: var(--mining-sdk-tag-input-text, var(--mining-sdk-color-text-secondary));
   background: var(--mining-sdk-tag-input-bg, transparent);
-  border: 1px solid var(--mining-sdk-tag-input-border, var(--mining-sdk-color-white-transparent));
+  border: 1px solid rgba(var(--mining-sdk-color-primary-rgb), 0.5);
   border-radius: 0;
   outline: none;
   transition:
@@ -49,16 +49,12 @@
     background-color 0.2s;
 
   &:hover:not(.mining-sdk-tag-input__wrapper--disabled):not(:focus-within) {
-    border-color: var(--mining-sdk-tag-input-border-hover, var(--mining-sdk-color-white-transparent));
+    border-color: var(--mining-sdk-color-primary);
   }
 
   &:focus-within {
     border-color: var(--mining-sdk-color-primary);
     background: var(--mining-sdk-tag-input-bg, transparent);
-  }
-
-  &--search {
-    padding-right: 2.5rem;
   }
 
   &--disabled {
@@ -88,8 +84,9 @@
   height: 22px;
   font-size: 14px;
   line-height: 20px;
-  background-color: var(--mining-sdk-tag-input-tag-bg, var(--mining-sdk-color-white-12));
-  color: var(--mining-sdk-tag-input-text, var(--mining-sdk-color-text-secondary));
+  background-color: rgba(var(--mining-sdk-color-primary-rgb), 0.2);
+  color: var(--mining-sdk-color-primary);
+  border: 1px solid rgba(var(--mining-sdk-color-primary-rgb), 0.3);
   border-radius: 0;
   flex-shrink: 0;
 }
@@ -100,17 +97,13 @@
   padding: 0;
   margin: 0;
   margin-left: 0.25rem;
-  color: var(--mining-sdk-tag-input-icon, var(--mining-sdk-color-text-disabled));
+  color: var(--mining-sdk-color-primary);
   background-color: transparent;
   border: none;
   cursor: pointer;
   border-radius: 0;
   position: relative;
   z-index: 1;
-
-  &:hover {
-    color: var(--mining-sdk-color-white);
-  }
 
   svg {
     width: 14px;
@@ -208,7 +201,8 @@
   overflow-x: hidden;
   padding: 4px;
   background-color: var(--mining-sdk-tag-input-dropdown-bg, var(--mining-sdk-color-gray-900));
-  border: 1px solid var(--mining-sdk-tag-input-dropdown-border, var(--mining-sdk-color-white-transparent));
+  border: 1px solid
+    var(--mining-sdk-tag-input-dropdown-border, var(--mining-sdk-color-white-transparent));
   border-radius: 0;
   box-shadow: var(--mining-sdk-shadow-lg);
 }
@@ -230,7 +224,10 @@
   gap: 12px;
 
   &--highlighted {
-    background-color: var(--mining-sdk-tag-input-option-hover-bg, var(--mining-sdk-color-white-transparent));
+    background-color: var(
+      --mining-sdk-tag-input-option-hover-bg,
+      var(--mining-sdk-color-white-transparent)
+    );
   }
 
   &--selected {
@@ -238,7 +235,10 @@
   }
 
   &:hover {
-    background-color: var(--mining-sdk-tag-input-option-hover-bg, var(--mining-sdk-color-white-transparent));
+    background-color: var(
+      --mining-sdk-tag-input-option-hover-bg,
+      var(--mining-sdk-color-white-transparent)
+    );
   }
 }
 

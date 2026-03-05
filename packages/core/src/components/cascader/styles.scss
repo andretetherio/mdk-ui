@@ -1,20 +1,12 @@
+.mining-sdk-tag-input__dropdown {
+  padding: 0;
+  margin-top: unset;
+  background-color: var(--mining-sdk-color-obsidian);
+}
+
 .mining-sdk-cascader {
   position: relative;
   display: inline-block;
-
-  .mining-sdk-tag-input__dropdown {
-    padding: 0;
-    margin-top: unset;
-  }
-
-  .mining-sdk-tag-input__inner {
-    gap: 4px;
-
-    .mining-sdk-tag-input__tag-chip {
-      font-size: 14px;
-      color: var(--mining-sdk-color-text-secondary);
-    }
-  }
 
   &__panels {
     @include flex_row;
@@ -30,15 +22,18 @@
 
     &--options {
       flex: 1;
-      background-color: var(--mining-sdk-select-content-bg);
+      background-color: var(--mining-sdk-color-obsidian);
       border-left: 1px solid var(--mining-sdk-border-default-color);
-      padding: 0;
+    }
+
+    &--categories {
+      border-right: 1px solid var(--mining-sdk-border-default-color);
     }
 
     &--search {
       flex: 1;
       width: 100%;
-      background-color: var(--mining-sdk-select-content-bg);
+      background-color: var(--mining-sdk-color-obsidian);
       border-left: none;
     }
 
@@ -95,40 +90,40 @@
         border-color: var(--mining-sdk-cascader-active-bg);
       }
     }
-  }
 
-  &__category-button {
-    @include flex_center;
+    &-button {
+      @include flex_center;
 
-    gap: 0.5rem;
-    flex: 1;
-    padding: 0;
-    background: transparent;
-    border: none;
-    color: var(--mining-sdk-color-text-secondary);
-    font-family: var(--font-mono);
-    font-size: 14px;
-    text-align: left;
-    cursor: pointer;
+      gap: 0.5rem;
+      flex: 1;
+      padding: 0;
+      background: transparent;
+      border: none;
+      color: var(--mining-sdk-color-text-secondary);
+      font-family: var(--font-mono);
+      font-size: 14px;
+      text-align: left;
+      cursor: pointer;
 
-    &:disabled {
-      cursor: not-allowed;
+      &:disabled {
+        cursor: not-allowed;
+      }
     }
-  }
 
-  &__category-label {
-    @include text_ellipsis;
+    &-label {
+      @include text_ellipsis;
 
-    flex: 1;
-    transition: color 0.2s ease;
-  }
+      flex: 1;
+      transition: color 0.2s ease;
+    }
 
-  &__category-arrow {
-    width: 1rem;
-    height: 1rem;
-    opacity: 0.5;
-    transition: all 0.2s ease;
-    flex-shrink: 0;
+    &-arrow {
+      width: 1rem;
+      height: 1rem;
+      opacity: 0.5;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
   }
 
   &__options-list {
@@ -164,5 +159,15 @@
   // Highlight matching search text
   &__highlight {
     color: var(--mining-sdk-cascader-color-highlight);
+  }
+}
+
+// Override TagInput styles for filter context
+.mining-sdk-tag-input__wrapper {
+  margin-top: 8px;
+  width: 300px;
+
+  &:focus-within {
+    box-shadow: 0 0 0 2px rgba(var(--mining-sdk-color-primary-rgb), 0.29);
   }
 }

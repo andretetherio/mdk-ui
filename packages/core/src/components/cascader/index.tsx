@@ -232,6 +232,7 @@ const Cascader = React.forwardRef<HTMLDivElement, CascaderProps>(
     const [activeCategory, setActiveCategory] = React.useState<string | null>(null)
     const [showLeftPanel, setShowLeftPanel] = React.useState(true)
     const [searchValue, setSearchValue] = React.useState('')
+    const [selectedTags, setSelectedTags] = React.useState<{ label: string; id: string }[]>([])
 
     // Normalize value to array format for consistent internal handling
     const normalizedValue = React.useMemo(() => {
@@ -407,40 +408,32 @@ const Cascader = React.forwardRef<HTMLDivElement, CascaderProps>(
       )
     }, [flattenedOptions, searchValue])
 
-    const selectedTags = React.useMemo(() => {
-      if (!multiple) return []
+    React.useEffect(() => {
+      if (!multiple) {
+        setSelectedTags([])
+        return
+      }
 
-      return normalizedValue.map((sel) => {
+      const tags = normalizedValue.map((sel) => {
         const lastValue = sel[sel.length - 1]
         for (const parent of options) {
           if (parent.children) {
             const child = parent.children.find((c) => c.value === lastValue)
-            if (child) return child.label
-          }
-        }
-        return String(lastValue)
-      })
-    }, [normalizedValue, multiple, options])
-
-    const handleTagRemove = React.useCallback(
-      (tags: string[]) => {
-        if (!multiple) return
-
-        const newValue = normalizedValue.filter((sel) => {
-          const lastValue = sel[sel.length - 1]
-          for (const parent of options) {
-            if (parent.children) {
-              const child = parent.children.find((c) => c.value === lastValue)
-              if (child && tags.includes(child.label)) return true
+            if (child) {
+              return {
+                label: child.label,
+                id: `${parent.value}-${child.value}`,
+              }
             }
           }
-          return false
-        })
-
-        onChange?.(newValue)
-      },
-      [multiple, normalizedValue, options, onChange],
-    )
+        }
+        return {
+          label: String(lastValue),
+          id: String(lastValue),
+        }
+      })
+      setSelectedTags(tags)
+    }, [normalizedValue, multiple, options])
 
     const tagInputOptions = React.useMemo(() => {
       const allOptions: TagInputOption[] = []
@@ -457,6 +450,31 @@ const Cascader = React.forwardRef<HTMLDivElement, CascaderProps>(
       return allOptions
     }, [options])
 
+    const handleTagRemove = React.useCallback(
+      (tags: string[]) => {
+        if (!multiple) return
+
+        // Map tags to their corresponding CascaderValue by matching label and id
+        const newTags = tags.map((tagLabel) => {
+          const foundTag = selectedTags.find((t) => t.label === tagLabel)
+          return foundTag || { label: tagLabel, id: tagLabel }
+        })
+
+        // Convert tags to CascaderValue using id (format: parent-child)
+        const newValue = newTags.map((tag) => {
+          const [parentValue, childValue] = tag.id.split('-')
+          if (childValue) {
+            return [parentValue, childValue] as CascaderValue
+          }
+          return [parentValue, tag.label.toLowerCase()] as CascaderValue
+        })
+
+        setSelectedTags(newTags)
+        onChange?.(newValue)
+      },
+      [multiple, selectedTags, onChange],
+    )
+
     const currentRadioValue = React.useMemo(() => {
       if (multiple || normalizedValue.length === 0) return undefined
       return JSON.stringify(normalizedValue[0])
@@ -469,7 +487,7 @@ const Cascader = React.forwardRef<HTMLDivElement, CascaderProps>(
       <div ref={ref} className={cn('mining-sdk-cascader', className)}>
         <TagInput
           ref={tagInputRef}
-          value={selectedTags}
+          value={selectedTags.map((tag) => tag.label)}
           onTagsChange={handleTagRemove}
           options={tagInputOptions}
           placeholder={placeholder}

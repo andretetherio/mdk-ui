@@ -301,6 +301,8 @@ const TagInput = React.forwardRef<TagInputRef | HTMLInputElement, TagInputProps>
           e.preventDefault()
           setHighlightedIndex((i) => Math.max(i - 1, 0))
         }
+
+        setOpen(true)
       },
       [
         inputValue,
@@ -325,16 +327,6 @@ const TagInput = React.forwardRef<TagInputRef | HTMLInputElement, TagInputProps>
       inputRef.current?.focus()
     }
 
-    const handleBlur = (e: React.FocusEvent<HTMLInputElement>): void => {
-      const relatedTarget = e.relatedTarget as Node | null
-      const isInWrapper = relatedTarget && wrapperRef.current?.contains(relatedTarget)
-      const isInDropdown = relatedTarget && dropdownRef.current?.contains(relatedTarget)
-      const keepOpen = isInWrapper || isInDropdown
-      if (!keepOpen) {
-        setTimeout(() => setOpen(false), 150)
-      }
-    }
-
     const showSearchIcon = variant === 'search'
 
     const handleOpenChange = (next: boolean): void => {
@@ -350,7 +342,7 @@ const TagInput = React.forwardRef<TagInputRef | HTMLInputElement, TagInputProps>
         }
 
         setOpen(next)
-      }, 50)
+      }, 150)
     }
 
     const handleWrapperClick = (e: React.MouseEvent): void => {
@@ -368,6 +360,12 @@ const TagInput = React.forwardRef<TagInputRef | HTMLInputElement, TagInputProps>
         setOpen((prev) => !prev)
       } else {
         inputRef.current?.focus()
+        setOpen((prev) => {
+          if (prev) {
+            inputRef.current?.blur()
+          }
+          return !prev
+        })
       }
     }
 
@@ -435,7 +433,6 @@ const TagInput = React.forwardRef<TagInputRef | HTMLInputElement, TagInputProps>
                     onInputChange?.(e.target.value)
                   }}
                   onKeyDown={handleKeyDown}
-                  onBlur={handleBlur}
                   disabled={disabled}
                   placeholder={tags.length === 0 ? placeholder : ''}
                   className={cn('mining-sdk-tag-input__input', className)}
