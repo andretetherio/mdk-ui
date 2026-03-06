@@ -37,7 +37,7 @@
     }
   },
   "scripts": {
-    "build": "pnpm build:ts && pnpm build:scss",
+    "build": "rimraf dist tsconfig.tsbuildinfo && pnpm build:ts && pnpm build:scss",
     "build:ts": "tsc",
     "build:scss": "vite build",
     "clean": "rimraf dist node_modules .turbo",

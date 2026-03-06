@@ -22,7 +22,7 @@
     "src/styles"
   ],
   "scripts": {
-    "build": "pnpm build:scss && pnpm build:ts && node scripts/minify.mjs dist",
+    "build": "rimraf dist tsconfig.build.tsbuildinfo && pnpm build:scss && pnpm build:ts && node scripts/minify.mjs dist",
     "build:scss": "vite build",
     "build:ts": "tsc -p tsconfig.build.json",
     "clean": "rimraf dist node_modules .turbo",

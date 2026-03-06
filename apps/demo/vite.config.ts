@@ -27,16 +27,14 @@ export default defineConfig({
       output: {
         manualChunks(id) {
           if (id.includes('node_modules')) {
-            // Split heavy chart libraries
+            // Split heavy chart libraries (keep these separate to avoid circular deps with vendor)
             if (id.includes('react-gauge-chart')) {
               return 'vendor-gauge-chart'
             }
             if (id.includes('react-day-picker') || id.includes('date-fns')) {
               return 'vendor-date-picker'
             }
-            if (id.includes('recharts') || id.includes('d3-')) {
-              return 'vendor-charts'
-            }
+            // Recharts/d3 go into vendor to avoid circular chunk: vendor <-> vendor-charts
             // Core React libraries
             if (id.includes('react-dom')) {
               return 'vendor-react-dom'
@@ -51,12 +49,14 @@ export default defineConfig({
             if (id.includes('@radix-ui')) {
               return 'vendor-radix-ui'
             }
-            // All other node_modules
+            // All other node_modules (including recharts, d3-, chart.js, lightweight-charts)
             return 'vendor'
           }
           // Split pages into separate chunks for better code splitting
           if (id.includes('src/pages/')) {
             const pageName = id.split('src/pages/')[1]?.split('.')[0]
+            // Barrel index only re-exports; skip to avoid empty "page-index" chunk
+            if (pageName === 'index') return undefined
             return `page-${pageName}`
           }
           if (id.includes('src/examples/')) {
