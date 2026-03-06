@@ -19,7 +19,7 @@ export default defineConfig({
     // Coverage configuration
     coverage: {
       provider: 'v8',
-      reporter: ['text', 'json', 'html', 'lcov'],
+      reporter: ['text-summary', 'html', 'lcov'],
       include: ['src/**/*.{ts,tsx}'],
       exclude: [
         'src/**/*.{test,spec}.{ts,tsx}',
@@ -29,6 +29,12 @@ export default defineConfig({
         'src/test-utils/**',
         'src/**/*.d.ts',
       ],
+      thresholds: {
+        lines: 94,
+        functions: 94,
+        branches: 85,
+        statements: 94,
+      },
     },
 
     // Test timeout

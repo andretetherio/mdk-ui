@@ -62,6 +62,10 @@
       "cache": false,
       "persistent": true
     },
+    "test:coverage": {
+      "dependsOn": ["^test:coverage"],
+      "cache": false
+    },
     "check": {
       "dependsOn": ["lint", "format", "typecheck"]
     },

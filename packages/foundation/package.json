@@ -47,6 +47,7 @@
     "lint": "eslint .",
     "test": "vitest run --config vitest.config.js --maxConcurrency=5",
     "test:watch": "vitest --watch",
+    "test:coverage": "vitest run --config vitest.config.js --coverage",
     "lint:fix": "eslint . --fix",
     "format": "eslint . --fix",
     "typecheck": "tsc --noEmit"
@@ -72,6 +73,7 @@
     "@types/lodash": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
+    "@vitest/coverage-v8": "catalog:",
     "@vitest/ui": "catalog:",
     "jsdom": "catalog:",
     "react": "catalog:",

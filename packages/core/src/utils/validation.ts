@@ -44,8 +44,17 @@ export const isNil = (value: unknown): value is null | undefined => {
 }
 
 /**
- * Check if value is a plain object (not array, not null)
+ * Check if value is a plain object (not array, not null, not Date, not RegExp)
  */
 export const isPlainObject = (value: unknown): value is Record<string, unknown> => {
-  return typeof value === 'object' && value !== null && !Array.isArray(value)
+  if (typeof value !== 'object' || value === null || Array.isArray(value)) {
+    return false
+  }
+
+  // Exclude Date and RegExp objects
+  if (value instanceof Date || value instanceof RegExp) {
+    return false
+  }
+
+  return true
 }

@@ -9,6 +9,10 @@ dist-css
 out
 build
 
+# Test coverage
+coverage
+*.lcov
+
 # Compiled CSS (should be in dist, not src)
 packages/*/src/styles.css
 packages/*/src/styles.css.map

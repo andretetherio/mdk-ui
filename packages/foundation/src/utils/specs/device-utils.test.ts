@@ -2,11 +2,25 @@
 import { UNITS } from '@mining-sdk/core'
 import {
   formatPowerConsumption,
+  getCabinetTitle,
+  getConfig,
   getHashrateString,
   getHashrateUnit,
+  getLast,
+  getLvCabinetTempSensorColor,
+  getLvCabinetTitle,
+  getMinerName,
   getOnOffText,
+  getPowerModeColor,
+  getRootTempSensorTempValue,
+  getSnap,
+  getStats,
+  getTransformerCabinetTitle,
   isMinerOffline,
+  isTransformerCabinet,
   megaToTera,
+  MinerStatuses,
+  PowerModeColors,
 } from '../device-utils'
 import { describe, expect, it } from 'vitest'
 
@@ -474,6 +488,166 @@ describe('device utils', () => {
       expect(getOnOffText(false)).toBe('Off')
       expect(getOnOffText(null)).toBe('-')
       expect(getOnOffText(null, 'x')).toBe('x')
+    })
+  })
+
+  describe('cabinet utils', () => {
+    it('should detect transformer cabinet', () => {
+      expect(isTransformerCabinet({ id: 'tr-1' })).toBe(true)
+      expect(isTransformerCabinet({ id: 'tr-cabinet-01' })).toBe(true)
+      expect(isTransformerCabinet({ id: 'lv-1' })).toBe(false)
+      expect(isTransformerCabinet({ id: 'cabinet' })).toBe(false)
+    })
+
+    it('should get transformer cabinet title', () => {
+      expect(
+        getTransformerCabinetTitle({ id: 'tr-1', connectedDevices: ['c-1', 'c-2'] }),
+      ).toContain('TR')
+      expect(getTransformerCabinetTitle({ id: 'tr-01' })).toContain('TR')
+    })
+
+    it('should get LV cabinet title', () => {
+      expect(getLvCabinetTitle({ id: 'lv-1' })).toBe('LV Cabinet -1')
+      expect(getLvCabinetTitle({ id: 'lv-cabinet-02' })).toContain('LV Cabinet')
+    })
+
+    it('should get correct cabinet title based on type', () => {
+      expect(getCabinetTitle({ id: 'tr-1' })).toContain('TR')
+      expect(getCabinetTitle({ id: 'lv-1' })).toContain('LV Cabinet')
+    })
+
+    it('should get LV cabinet temp sensor color', () => {
+      expect(getLvCabinetTempSensorColor(75)).toBeTruthy()
+      expect(getLvCabinetTempSensorColor(65)).toBeTruthy()
+      expect(getLvCabinetTempSensorColor(50)).toBe('')
+    })
+  })
+
+  describe('device data accessors', () => {
+    it('should get last data', () => {
+      expect(getLast({ last: { value: 1 } })).toEqual({ value: 1 })
+      expect(getLast({})).toEqual({})
+      expect(getLast({ other: 'data' })).toEqual({})
+    })
+
+    it('should get snap data', () => {
+      expect(getSnap({ last: { snap: { temp: 50 } } })).toEqual({ temp: 50 })
+      expect(getSnap({})).toEqual({})
+    })
+
+    it('should get stats data', () => {
+      expect(getStats({ last: { snap: { stats: { power: 100 } } } })).toEqual({ power: 100 })
+      expect(getStats({})).toEqual({})
+    })
+
+    it('should get config data', () => {
+      expect(getConfig({ last: { snap: { config: { mode: 'high' } } } })).toEqual({ mode: 'high' })
+      expect(getConfig({})).toEqual({})
+    })
+
+    it('should get root temp sensor value', () => {
+      const device = {
+        rootTempSensor: {
+          last: {
+            snap: {
+              stats: { temp_c: 45.5 },
+            },
+          },
+        },
+      }
+      expect(getRootTempSensorTempValue(device)).toBe(45.5)
+      expect(getRootTempSensorTempValue({})).toBeUndefined()
+    })
+  })
+
+  describe('power mode', () => {
+    it('should have power mode colors', () => {
+      expect(PowerModeColors.sleep).toBeDefined()
+      expect(PowerModeColors.low).toBeDefined()
+      expect(PowerModeColors.normal).toBeDefined()
+      expect(PowerModeColors.high).toBeDefined()
+    })
+
+    it('should get power mode color', () => {
+      expect(getPowerModeColor('sleep')).toBeDefined()
+      expect(getPowerModeColor('high')).toBeDefined()
+    })
+  })
+
+  describe('miner name', () => {
+    it('should get miner name from type', () => {
+      const name = getMinerName('miner-am-s19')
+      expect(name).toBeTruthy()
+      expect(typeof name).toBe('string')
+    })
+  })
+
+  describe('miner statuses', () => {
+    it('should have all miner status types', () => {
+      expect(MinerStatuses.MINING).toBe('mining')
+      expect(MinerStatuses.OFFLINE).toBe('offline')
+      expect(MinerStatuses.SLEEPING).toBe('sleeping')
+      expect(MinerStatuses.ERROR).toBe('error')
+      expect(MinerStatuses.NOT_MINING).toBe('not_mining')
+      expect(MinerStatuses.MAINTENANCE).toBe('maintenance')
+      expect(MinerStatuses.ALERT).toBe('alert')
+    })
+
+    it('should have lowercase status values', () => {
+      Object.values(MinerStatuses).forEach((status) => {
+        expect(status).toBe(status.toLowerCase())
+      })
+    })
+
+    it('should have all expected statuses', () => {
+      const statuses = Object.values(MinerStatuses)
+      expect(statuses).toHaveLength(7)
+    })
+
+    it('should have operational and non-operational statuses', () => {
+      const statuses = Object.values(MinerStatuses)
+      expect(statuses).toContain('mining')
+      expect(statuses).toContain('offline')
+      expect(statuses).toContain('sleeping')
+      expect(statuses).toContain('error')
+    })
+  })
+
+  describe('isMinerOffline advanced cases', () => {
+    it('should detect offline by status', () => {
+      const device = {
+        last: {
+          snap: {
+            stats: { status: 'offline' },
+            config: { mode: 'normal' },
+          },
+        },
+      }
+      expect(isMinerOffline(device)).toBe(true)
+    })
+
+    it('should detect offline by empty stats and config', () => {
+      const device = {
+        last: {
+          snap: {
+            stats: {},
+            config: {},
+          },
+        },
+      }
+      expect(isMinerOffline(device)).toBe(true)
+    })
+
+    it('should not be offline with stats and config present', () => {
+      const device = {
+        last: {
+          snap: {
+            stats: { status: 'mining', power: 100 },
+            config: { mode: 'normal' },
+          },
+        },
+      }
+      expect(isMinerOffline(device)).toBe(false)
     })
   })
 })

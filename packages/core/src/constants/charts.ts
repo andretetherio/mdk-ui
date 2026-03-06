@@ -63,6 +63,17 @@ export const LABEL_TO_IGNORE = [
   'fill',
   'period',
   'groupByRegion',
+  // Additional Chart.js styling properties
+  'tension',
+  'pointRadius',
+  'pointHoverRadius',
+  'borderDash',
+  'order',
+  'stack',
+  'hidden',
+  'yAxisID',
+  'xAxisID',
+  'type',
 ] as const
 
 export type ChartLegendOpacityKey = keyof typeof CHART_LEGEND_OPACITY

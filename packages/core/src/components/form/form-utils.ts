@@ -86,21 +86,31 @@ export const validators = {
 
   /**
    * Phone number validation (basic format)
+   * Accepts formats: +1234567890, 1234567890, +1-234-567-8900, (123) 456-7890
+   * Requires at least 10 digits total
    */
   phone: (options?: { required?: boolean; message?: string }) =>
     options?.required === false
       ? z
           .string()
           .regex(
-            /^\+?\(?\d{1,4}\)?[-\s.]?\(?\d{1,4}\)?[-\s.]?\d{1,9}$/,
+            /^\+?\(?\d{1,4}\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
             options?.message ?? 'Please enter a valid phone number',
+          )
+          .refine(
+            (val) => val.replace(/\D/g, '').length >= 10,
+            options?.message ?? 'Phone number must contain at least 10 digits',
           )
           .optional()
       : z
           .string()
           .regex(
-            /^\+?\(?\d{1,4}\)?[-\s.]?\(?\d{1,4}\)?[-\s.]?\d{1,9}$/,
+            /^\+?\(?\d{1,4}\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
             options?.message ?? 'Please enter a valid phone number',
+          )
+          .refine(
+            (val) => val.replace(/\D/g, '').length >= 10,
+            options?.message ?? 'Phone number must contain at least 10 digits',
           ),
 
   /**
