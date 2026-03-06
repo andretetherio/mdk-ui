@@ -11,7 +11,7 @@ import {
   SCALE_PADDING_FACTOR_FOR_INT,
   TOOLTIP_DEFAULT_OFFSET,
   VISIBLE_POINTS_BY_TIMELINE,
-} from '../light-weight-line-chart.constants'
+} from '../line-chart.constants'
 
 describe('tOOLTIP_DEFAULT_OFFSET', () => {
   it('defines default tooltip offset', () => {

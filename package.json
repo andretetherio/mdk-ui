@@ -28,7 +28,7 @@
     "lint": "turbo lint",
     "lint:fix": "turbo lint:fix",
     "prepare": "husky",
-    "fullcheck": "pnpm lint && pnpm typecheck && pnpm format && pnpm build",
+    "fullcheck": "pnpm lint && pnpm typecheck && pnpm format && pnpm build && pnpm test:coverage",
     "preview:demo": "turbo preview --filter=@mining-sdk/demo",
     "typecheck": "turbo typecheck",
     "watch": "turbo watch",

@@ -5,7 +5,7 @@ import {
   buildTooltipHTML,
   getTooltipPosition,
   getVisibleDataPointsForTimeline,
-} from '../light-weight-line-chart.utils'
+} from '../line-chart.utils'
 
 describe('getTooltipPosition', () => {
   beforeAll(() => {
