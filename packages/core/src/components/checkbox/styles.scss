@@ -15,9 +15,9 @@
   flex-shrink: 0;
   position: relative;
 
-  &:hover {
+  &:hover:not(:disabled) {
     border-color: currentColor;
-    opacity: 0.8;
+    opacity: 0.85;
   }
 
   &:focus-visible {

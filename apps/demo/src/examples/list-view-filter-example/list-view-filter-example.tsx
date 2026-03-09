@@ -13,6 +13,8 @@ import {
 } from '@mining-sdk/core'
 import * as React from 'react'
 
+import './list-view-filter-example.scss'
+
 /**
  * Mock data - Mining Equipment
  */
@@ -233,6 +235,7 @@ export const ListViewFilterExample = (): JSX.Element => {
           newFilters[category] = value
         }
       })
+
       setFilters(newFilters)
     },
     [],
@@ -291,44 +294,27 @@ export const ListViewFilterExample = (): JSX.Element => {
   }
 
   return (
-    <div style={{ padding: '2rem' }}>
-      <div>
+    <div className="list-view-filter-example">
+      <div className="list-view-filter-example__container">
         {/* Header */}
-        <Typography style={{ marginBottom: '2rem' }}>List view filter</Typography>
+        <Typography className="list-view-filter-example__header">List view filter</Typography>
 
         {/* Toolbar */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            marginBottom: '2rem',
-            padding: '1.5rem',
-            backgroundColor: '#1a1a1a',
-            border: '1px solid #333',
-            borderRadius: '0.5rem',
-            gap: '1rem',
-            flexWrap: 'wrap',
-          }}
-        >
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '1rem',
-            }}
-          >
+        <div className="list-view-filter-example__toolbar">
+          <div className="list-view-filter-example__toolbar-actions">
             <ListViewFilter
               options={filterOptions}
               localFilters={filters}
               onChange={handleFilterChange}
             />
             {Object.keys(filters).length > 0 && (
-              <Button onClick={handleClearFilters}>Clear Filters</Button>
+              <Button size="sm" onClick={handleClearFilters}>
+                Clear Filters
+              </Button>
             )}
           </div>
 
-          <div>
+          <div className="list-view-filter-example__toolbar-stats">
             <Typography size="sm">
               Showing{' '}
               <Typography variant="caption" color="primary">
@@ -345,30 +331,17 @@ export const ListViewFilterExample = (): JSX.Element => {
 
         {/* Active Filters Display */}
         {Object.keys(filters).length > 0 && (
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '1rem',
-              padding: '1rem 1.5rem',
-              backgroundColor: 'rgba(255, 147, 0, 0.1)',
-              border: '1px solid rgba(255, 147, 0, 0.3)',
-              borderRadius: '0.5rem',
-              marginBottom: '2rem',
-            }}
-          >
+          <div className="list-view-filter-example__active-filters">
             <Typography size="md" color="primary">
               Active Filters:
             </Typography>
-            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+            <div className="list-view-filter-example__active-filters-tags">
               {Object.entries(filters).map(([key, value]) => {
                 const values = Array.isArray(value) ? value : [value]
                 return values.map((val, idx) => (
-                  <div key={`${key}-${val}-${idx}`}>
-                    <Tag>
-                      {key}:{String(val)}
-                    </Tag>
-                  </div>
+                  <Tag key={`${key}-${val}-${idx}`}>
+                    {key}:{String(val)}
+                  </Tag>
                 ))
               })}
             </div>
@@ -376,26 +349,14 @@ export const ListViewFilterExample = (): JSX.Element => {
         )}
 
         {/* Device List */}
-        <div>
+        <div className="list-view-filter-example__content">
           {filteredDevices.length === 0 ? (
             <EmptyState description="No devices found" />
           ) : (
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))',
-                gap: '1.5rem',
-              }}
-            >
+            <div className="list-view-filter-example__grid">
               {filteredDevices.map((device) => (
                 <Card key={device.id}>
-                  <CardHeader
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                    }}
-                  >
+                  <CardHeader className="list-view-filter-example__card-header">
                     <Typography variant="heading3" size="md" weight="light">
                       {device.name}
                     </Typography>
@@ -403,26 +364,22 @@ export const ListViewFilterExample = (): JSX.Element => {
                   </CardHeader>
 
                   <CardBody>
-                    <div>
+                    <div className="list-view-filter-example__card-row">
                       <span>Type:</span>
                       <span>{device.type}</span>
                     </div>
 
-                    <div
-                      style={{ display: 'flex', gap: '0.5rem', justifyContent: 'space-between' }}
-                    >
+                    <div className="list-view-filter-example__card-row">
                       <span>Pool:</span>
                       <span>{device.pool}</span>
                     </div>
 
-                    <div
-                      style={{ display: 'flex', gap: '0.5rem', justifyContent: 'space-between' }}
-                    >
+                    <div className="list-view-filter-example__card-row">
                       <span>Location:</span>
                       <span>{device.location}</span>
                     </div>
 
-                    <div>
+                    <div className="list-view-filter-example__card-metrics">
                       <div>
                         <span>Hashrate</span>
                         <span>{device.hashrate > 0 ? `${device.hashrate} TH/s` : 'N/A'}</span>
@@ -435,7 +392,7 @@ export const ListViewFilterExample = (): JSX.Element => {
                     </div>
                   </CardBody>
 
-                  <CardFooter>
+                  <CardFooter className="list-view-filter-example__card-footer">
                     <Typography variant="caption">Power</Typography>
                     <Typography variant="body" weight="medium" color="primary">
                       {device.power > 0 ? `${device.power}W` : 'N/A'}

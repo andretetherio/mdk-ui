@@ -57,6 +57,12 @@ export type BadgeProps = {
   offset?: [number, number]
 
   /**
+   * Square badge (no border-radius)
+   * @default false
+   */
+  square?: boolean
+
+  /**
    * Custom className for badge
    */
   className?: string
@@ -97,10 +103,18 @@ export type BadgeProps = {
  * ```
  *
  * @example
+ * // Square badge
+ * ```tsx
+ * <Badge count={5} square>
+ *   <Button>Messages</Button>
+ * </Badge>
+ * ```
+ *
+ * @example
  * // Standalone badge
  * ```tsx
  * <Badge count={25} />
- * <Badge text="NEW" color="primary" />
+ * <Badge text="NEW" color="primary" square />
  * ```
  *
  * @example
@@ -142,6 +156,7 @@ const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
       color = 'primary',
       size = 'md',
       offset = [0, 0],
+      square = false,
       className,
       wrapperClassName,
       title,
@@ -178,6 +193,7 @@ const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
           `mining-sdk-badge--${size}`,
           `mining-sdk-badge--${color}`,
           dot && 'mining-sdk-badge--dot',
+          square && 'mining-sdk-badge--square',
           status && `mining-sdk-badge--status mining-sdk-badge--status-${status}`,
           !hasChildren && 'mining-sdk-badge--standalone',
           className,

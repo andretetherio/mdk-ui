@@ -160,14 +160,18 @@
   &__highlight {
     color: var(--mining-sdk-cascader-color-highlight);
   }
-}
 
-// Override TagInput styles for filter context
-.mining-sdk-tag-input__wrapper {
-  margin-top: 8px;
-  width: 300px;
+  // Override TagInput styles for filter context
+  .mining-sdk-tag-input__wrapper {
+    margin-top: 8px;
+    width: 300px;
+    display: block;
+    align-items: unset;
+    max-height: 150px;
+    overflow-y: scroll;
 
-  &:focus-within {
-    box-shadow: 0 0 0 2px rgba(var(--mining-sdk-color-primary-rgb), 0.29);
+    &:focus-within {
+      box-shadow: 0 0 0 2px rgba(var(--mining-sdk-color-primary-rgb), 0.29);
+    }
   }
 }

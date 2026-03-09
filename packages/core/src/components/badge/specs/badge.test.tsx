@@ -202,4 +202,28 @@ describe('badge', () => {
     const { container } = render(<Badge dot count={0} />)
     expect(container.querySelector('.mining-sdk-badge')).toBeInTheDocument()
   })
+
+  it('applies square class when square is true', () => {
+    const { container } = render(<Badge count={5} square />)
+    expect(container.querySelector('.mining-sdk-badge')).toHaveClass('mining-sdk-badge--square')
+  })
+
+  it('does not apply square class by default', () => {
+    const { container } = render(<Badge count={5} />)
+    expect(container.querySelector('.mining-sdk-badge')).not.toHaveClass('mining-sdk-badge--square')
+  })
+
+  it('applies square class to standalone badge', () => {
+    const { container } = render(<Badge count={25} square />)
+    expect(container.querySelector('.mining-sdk-badge')).toHaveClass('mining-sdk-badge--square')
+  })
+
+  it('applies square class to badge with children', () => {
+    const { container } = render(
+      <Badge count={5} square>
+        <button>Button</button>
+      </Badge>,
+    )
+    expect(container.querySelector('.mining-sdk-badge')).toHaveClass('mining-sdk-badge--square')
+  })
 })

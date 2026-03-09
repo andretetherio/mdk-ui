@@ -17,7 +17,7 @@
   line-height: 1;
   white-space: nowrap;
   text-align: center;
-  border-radius: 9999px;
+  border-radius: 9999px; // Default: fully rounded
   transition: all 0.2s ease;
   color: var(--mining-sdk-color-white);
 
@@ -49,6 +49,16 @@
   position: relative;
   transform: none;
   animation: none;
+}
+
+/* Square badge (no border-radius) */
+.mining-sdk-badge--square {
+  border-radius: 0;
+
+  // Dot badges should still be circles even when square
+  &.mining-sdk-badge--dot {
+    border-radius: 50%;
+  }
 }
 
 /* ========================================
@@ -181,7 +191,7 @@
 
 .mining-sdk-badge--dot {
   padding: 0;
-  border-radius: 50%;
+  border-radius: 50%; // Always circular for dots
 
   .mining-sdk-badge-wrapper & {
     transform: translate(30%, -30%);

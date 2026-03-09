@@ -8,7 +8,6 @@
     position: relative;
 
     .mining-sdk-button {
-      border-color: var(--mining-sdk-button-secondary-border-visible);
       transition:
         color,
         border-color 200ms ease;
@@ -40,13 +39,16 @@
   &__content {
     padding: 0;
   }
-}
 
-/* Portaled dropdown: Cascader panels are rendered inside TagInput's Popover (outside __content). */
-.mining-sdk-cascader {
-  border: none;
-  background: transparent;
-  &__panels {
+  .mining-sdk-cascader {
     border: none;
+    background: transparent;
+    &__panels {
+      border: none;
+    }
+
+    .mining-sdk-tag-input__wrapper {
+      width: 15vw;
+    }
   }
 }

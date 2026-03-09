@@ -133,7 +133,7 @@
     cursor: not-allowed;
   }
 
-  .mining-sdk-tag-input__wrapper[data-has-tags='true']:not(:focus-within) & {
+  .mining-sdk-tag-input__wrapper[data-has-tags='true'] &[data-open='false'] {
     width: 0;
     min-width: 0;
     padding: 0;

@@ -264,7 +264,9 @@ const Cascader = React.forwardRef<HTMLDivElement, CascaderProps>(
         const category = options.find((opt) => opt.value === categoryValue)
         if (!category?.children) return false
 
-        return category.children.every((child) => isSelected([categoryValue, child.value]))
+        return category.children
+          .filter((child) => !child.disabled)
+          .every((child) => isSelected([categoryValue, child.value]))
       },
       [options, isSelected],
     )
@@ -324,13 +326,13 @@ const Cascader = React.forwardRef<HTMLDivElement, CascaderProps>(
 
         if (checked) {
           const childSelections = category.children
+            .filter((child) => !child.disabled)
             .map((child) => [categoryValue, child.value] as CascaderValue)
             .filter((sel) => !isSelected(sel))
           newValue = [...normalizedValue, ...childSelections]
         } else {
           newValue = normalizedValue.filter((sel) => sel[0] !== categoryValue)
         }
-
         onChange?.(newValue)
       },
       [options, normalizedValue, onChange, isSelected],
@@ -422,7 +424,7 @@ const Cascader = React.forwardRef<HTMLDivElement, CascaderProps>(
             if (child) {
               return {
                 label: child.label,
-                id: `${parent.value}-${child.value}`,
+                id: `${parent.value}__${child.value}`,
               }
             }
           }
@@ -462,7 +464,8 @@ const Cascader = React.forwardRef<HTMLDivElement, CascaderProps>(
 
         // Convert tags to CascaderValue using id (format: parent-child)
         const newValue = newTags.map((tag) => {
-          const [parentValue, childValue] = tag.id.split('-')
+          const [parentValue, childValue] = tag.id.split('__')
+
           if (childValue) {
             return [parentValue, childValue] as CascaderValue
           }

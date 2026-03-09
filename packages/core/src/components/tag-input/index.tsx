@@ -346,6 +346,9 @@ const TagInput = React.forwardRef<TagInputRef | HTMLInputElement, TagInputProps>
     }
 
     const handleWrapperClick = (e: React.MouseEvent): void => {
+      // Don't toggle dropdown when disabled
+      if (disabled) return
+
       // Check if click is on the remove tag button or icon
       const target = e.target as HTMLElement
       if (
@@ -438,6 +441,7 @@ const TagInput = React.forwardRef<TagInputRef | HTMLInputElement, TagInputProps>
                   className={cn('mining-sdk-tag-input__input', className)}
                   autoComplete="off"
                   aria-autocomplete="list"
+                  data-open={open}
                   aria-expanded={open}
                   aria-controls={open ? `${id}-listbox` : undefined}
                   aria-activedescendant={
