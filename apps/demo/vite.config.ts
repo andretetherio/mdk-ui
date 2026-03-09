@@ -2,6 +2,7 @@ import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
+  base: process.env.VITE_BASE_PATH ?? '/mdk',
   publicDir: 'public',
   plugins: [react()],
   css: {
@@ -9,7 +10,7 @@ export default defineConfig({
       scss: {
         api: 'modern-compiler',
         additionalData: `@use '@mining-sdk/core/styles' as *;\n`,
-      },
+      } as Record<string, unknown>,
     },
   },
   build: {
