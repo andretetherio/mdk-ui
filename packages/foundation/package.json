@@ -64,6 +64,7 @@
     "@mining-sdk/core": "workspace:*",
     "@radix-ui/react-use-controllable-state": "catalog:",
     "date-fns": "catalog:",
+    "date-fns-tz": "catalog:",
     "lodash": "catalog:"
   },
   "devDependencies": {

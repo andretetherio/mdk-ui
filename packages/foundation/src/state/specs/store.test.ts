@@ -14,6 +14,19 @@ describe('redux store', () => {
     expect(state.notifications.count).toBe(0)
   })
 
+  it('should have auth reducer', () => {
+    const state = store.getState()
+    expect(state.auth).toBeDefined()
+    expect(state.auth.token).toBeNull()
+    expect(state.auth.permissions).toBeNull()
+  })
+
+  it('should have timezone reducer', () => {
+    const state = store.getState()
+    expect(state.timezone).toBeDefined()
+    expect(state.timezone.timezone).toBeDefined()
+  })
+
   it('should handle actions', () => {
     const state = store.getState()
     expect(state.notifications).toEqual({ count: 0 })
