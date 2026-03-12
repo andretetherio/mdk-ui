@@ -1,9 +1,11 @@
 /* eslint-disable ts/ban-ts-comment */
 import { UNITS } from '@mining-sdk/core'
+import { describe, expect, it } from 'vitest'
 import {
   formatPowerConsumption,
   getCabinetTitle,
   getConfig,
+  getContainerSpecificStats,
   getHashrateString,
   getHashrateUnit,
   getLast,
@@ -21,8 +23,8 @@ import {
   megaToTera,
   MinerStatuses,
   PowerModeColors,
+  removeContainerPrefix,
 } from '../device-utils'
-import { describe, expect, it } from 'vitest'
 
 describe('device utils', () => {
   describe('formatHashRate', () => {
@@ -648,6 +650,182 @@ describe('device utils', () => {
         },
       }
       expect(isMinerOffline(device)).toBe(false)
+    })
+
+    describe('removeContainerPrefix', () => {
+      it('should remove container prefix', () => {
+        expect(removeContainerPrefix('container-test')).toEqual('test')
+      })
+    })
+
+    describe('getContainerSpecificStats', () => {
+      it('returns container_specific stats when present', () => {
+        const data = {
+          last: {
+            snap: {
+              stats: {
+                container_specific: {
+                  cooling_system: { enabled: true },
+                  tank_pressure: 2.5,
+                },
+              },
+            },
+          },
+        }
+
+        const result = getContainerSpecificStats(data)
+
+        expect(result).toEqual({
+          cooling_system: { enabled: true },
+          tank_pressure: 2.5,
+        })
+      })
+
+      it('returns empty object when container_specific is missing', () => {
+        const data = {
+          last: {
+            snap: {
+              stats: {
+                other_field: 'value',
+              },
+            },
+          },
+        }
+
+        const result = getContainerSpecificStats(data)
+
+        expect(result).toEqual({})
+      })
+
+      it('returns empty object when stats is missing', () => {
+        const data = {
+          last: {
+            snap: {},
+          },
+        }
+
+        const result = getContainerSpecificStats(data)
+
+        expect(result).toEqual({})
+      })
+
+      it('returns empty object when snap is missing', () => {
+        const data = {
+          last: {},
+        }
+
+        const result = getContainerSpecificStats(data)
+
+        expect(result).toEqual({})
+      })
+
+      it('returns empty object when last is missing', () => {
+        const data = {}
+
+        const result = getContainerSpecificStats(data)
+
+        expect(result).toEqual({})
+      })
+
+      it('returns empty object when data is undefined', () => {
+        const result = getContainerSpecificStats(undefined as any)
+
+        expect(result).toEqual({})
+      })
+
+      it('returns empty object when data is null', () => {
+        const result = getContainerSpecificStats(null as any)
+
+        expect(result).toEqual({})
+      })
+
+      it('handles nested container_specific data', () => {
+        const data = {
+          last: {
+            snap: {
+              stats: {
+                container_specific: {
+                  dry_cooler: [
+                    { index: 0, enabled: true },
+                    { index: 1, enabled: false },
+                  ],
+                  oil_pump: [{ index: 0, enabled: true }],
+                },
+              },
+            },
+          },
+        }
+
+        const result = getContainerSpecificStats(data)
+
+        expect(result).toEqual({
+          dry_cooler: [
+            { index: 0, enabled: true },
+            { index: 1, enabled: false },
+          ],
+          oil_pump: [{ index: 0, enabled: true }],
+        })
+      })
+
+      it('handles container_specific with null value', () => {
+        const data = {
+          last: {
+            snap: {
+              stats: {
+                container_specific: null,
+              },
+            },
+          },
+        }
+
+        const result = getContainerSpecificStats(data)
+
+        expect(result).toEqual({})
+      })
+
+      it('handles container_specific with undefined value', () => {
+        const data = {
+          last: {
+            snap: {
+              stats: {
+                container_specific: undefined,
+              },
+            },
+          },
+        }
+
+        const result = getContainerSpecificStats(data)
+
+        expect(result).toEqual({})
+      })
+
+      it('preserves all properties in container_specific', () => {
+        const data = {
+          last: {
+            snap: {
+              stats: {
+                container_specific: {
+                  field1: 'value1',
+                  field2: 123,
+                  field3: true,
+                  field4: null,
+                  field5: { nested: 'object' },
+                },
+              },
+            },
+          },
+        }
+
+        const result = getContainerSpecificStats(data)
+
+        expect(result).toEqual({
+          field1: 'value1',
+          field2: 123,
+          field3: true,
+          field4: null,
+          field5: { nested: 'object' },
+        })
+      })
     })
   })
 })

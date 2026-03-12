@@ -178,11 +178,6 @@
     width: 100%;
   }
 
-  /* Weekday headers */
-  .rdp-weekdays {
-    /* Keep native table display */
-  }
-
   .rdp-weekday {
     height: 24px;
     text-align: center;
@@ -191,15 +186,6 @@
     color: var(--mining-sdk-color-text-disabled);
     text-transform: uppercase;
     padding: 0;
-  }
-
-  /* Week rows */
-  .rdp-weeks {
-    /* Keep native tbody display */
-  }
-
-  .rdp-week {
-    /* Keep native tr display */
   }
 
   /* Day cells - let table auto-distribute width equally across 7 columns */

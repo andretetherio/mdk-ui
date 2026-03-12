@@ -1,0 +1,13 @@
+@use '@mining-sdk/core/styles' as *;
+
+.mining-sdk-bitdeer-settings {
+  @include flex_column;
+
+  gap: 1.5rem;
+
+  &__divider {
+    height: 1px;
+    background-color: var(--mining-sdk-color-dark-grey, #333333);
+    margin: 0.5rem 0;
+  }
+}
