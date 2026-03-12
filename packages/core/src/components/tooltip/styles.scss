@@ -70,7 +70,6 @@
   position: relative;
   background: var(--mining-sdk-tooltip-border-color);
   clip-path: polygon(0% 0%, 50% 100%, 100% 0%);
-  filter: brightness(1.5);
 
   &::after {
     content: '';

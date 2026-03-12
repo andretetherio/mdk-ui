@@ -7,7 +7,7 @@
 
 .mining-sdk-cascader {
   position: relative;
-  display: inline-block;
+  display: block;
 
   &__panels {
     @include flex_row;
@@ -164,7 +164,7 @@
   // Override TagInput styles for filter context
   .mining-sdk-tag-input__wrapper {
     margin-top: 8px;
-    width: 300px;
+    width: 100%;
     display: block;
     align-items: unset;
     max-height: 150px;
