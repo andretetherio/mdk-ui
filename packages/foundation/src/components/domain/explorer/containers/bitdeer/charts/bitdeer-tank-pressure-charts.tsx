@@ -16,7 +16,10 @@ import { CHART_COLORS, UNITS } from '@mining-sdk/core'
  * ```
  */
 import type { ReactElement } from 'react'
-import type { ChartDataPayload } from '../../../../container-charts-builder'
+import type {
+  ChartDataPayload,
+  ContainerChartsBuilderProps,
+} from '../../../../container-charts-builder'
 import ContainerChartsBuilder from '../../../../container-charts-builder'
 
 const TANK_PRESSURE_CHART_VALUE_DECIMALS = 1
@@ -44,23 +47,6 @@ const TANK_PRESSURE_CHART_DATA_PAYLOAD: ChartDataPayload = {
   },
 }
 
-type BitdeerTankPressureChartsProps = {
-  /** Container tag identifier */
-  tag?: string
-  /** Chart title */
-  chartTitle?: string
-  /** Date range for chart data */
-  dateRange?: { start?: number; end?: number }
-  /** Raw chart data */
-  data?: Array<Record<string, unknown>>
-  /** Timeline selection (e.g., '1h', '24h', '7d') */
-  timeline?: string
-  /** Fixed timezone for date display */
-  fixedTimezone?: string
-  /** Chart height in pixels */
-  height?: number
-}
-
 export const BitdeerTankPressureCharts = ({
   tag,
   chartTitle = 'Tank Pressure',
@@ -69,7 +55,7 @@ export const BitdeerTankPressureCharts = ({
   timeline,
   fixedTimezone,
   height,
-}: BitdeerTankPressureChartsProps): ReactElement => (
+}: ContainerChartsBuilderProps): ReactElement => (
   <ContainerChartsBuilder
     tag={tag}
     chartTitle={chartTitle}

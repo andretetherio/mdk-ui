@@ -18,6 +18,7 @@ import { getCommonColorMapping } from './helpers'
 import { FlashStatusIndicator, SoundStatusIndicator } from './status-indicator'
 
 import { useContainerThresholds } from '../../../hooks/use-container-thresholds'
+import type { Device } from '../../../types/device'
 import './base-threshold-form.scss'
 
 type ThresholdConfig = {
@@ -35,11 +36,11 @@ type ParameterSetting = {
 }
 
 type BaseThresholdFormProps = {
-  data?: UnknownRecord
+  data?: Device | UnknownRecord
   thresholdConfigs?: ThresholdConfig[]
   onSave?: (thresholds: Record<string, Record<string, number>>) => void | Promise<void>
   getContainerParametersSettings?: (
-    data: UnknownRecord,
+    data: Device | UnknownRecord,
   ) => Record<string, ParameterSetting> | undefined
   children?: ReactNode
 }

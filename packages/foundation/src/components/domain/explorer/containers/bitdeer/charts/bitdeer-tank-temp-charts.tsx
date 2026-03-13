@@ -2,25 +2,17 @@ import { CHART_COLORS, UNITS } from '@mining-sdk/core'
 import type { ReactElement } from 'react'
 import { useMemo } from 'react'
 import { CHART_TITLES } from '../../../../../../constants/charts'
-import type { ChartDataPayload } from '../../../../container-charts-builder'
+import type {
+  ChartDataPayload,
+  ContainerChartsBuilderProps,
+} from '../../../../container-charts-builder'
 import ContainerChartsBuilder from '../../../../container-charts-builder'
 
 type BitdeerTankTempChartsProps = {
-  /** Container tag identifier */
-  tag?: string
   /** Tank number (1 or 2) */
   tankNumber?: number | string
   /** Date range for chart data */
-  dateRange?: { start?: number; end?: number }
-  /** Raw chart data */
-  data?: Array<Record<string, unknown>>
-  /** Timeline selection (e.g., '1h', '24h', '7d') */
-  timeline?: string
-  /** Fixed timezone for date display */
-  fixedTimezone?: string
-  /** Chart height in pixels */
-  height?: number
-}
+} & ContainerChartsBuilderProps
 
 /**
  * Tank Temperature Charts for Bitdeer containers

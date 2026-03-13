@@ -213,3 +213,69 @@ export const getOnOffText = (isOn: unknown, fallback = FALLBACK): string => {
   }
   return 'Off'
 }
+
+/**
+ * Extract and normalize device data from a Device object
+ *
+ * @param device - Device object to extract data from
+ * @returns Tuple of [error, deviceData]
+ *
+ * @example
+ * ```ts
+ * const [error, deviceData] = getDeviceData(device)
+ * if (error) {
+ *   console.error('Device error:', error)
+ * }
+ * if (deviceData) {
+ *   console.log('Device stats:', deviceData.snap.stats)
+ * }
+ * ```
+ */
+export const getDeviceData = (
+  device: Device | null | undefined,
+): [error: string | undefined | null, data: Device | undefined] => {
+  if (!device) {
+    return ['Device Not Found', undefined]
+  }
+
+  const { id, type, tags, rack, last, username, info, containerId, address } = device
+
+  // If no last data, return error with empty snap
+  if (!last) {
+    return [
+      undefined,
+      {
+        id,
+        type,
+        tags,
+        rack,
+        last,
+        username,
+        info,
+        containerId,
+        address,
+        snap: { stats: {}, config: {} },
+        err: 'Last Device info not found',
+      },
+    ]
+  }
+
+  const { err, snap, alerts } = last
+
+  return [
+    err,
+    {
+      id,
+      type,
+      tags,
+      rack,
+      snap: snap ?? { stats: {}, config: {} },
+      alerts,
+      username,
+      info,
+      containerId,
+      address,
+      err,
+    },
+  ]
+}

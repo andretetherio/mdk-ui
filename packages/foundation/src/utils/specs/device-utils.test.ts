@@ -1,11 +1,13 @@
 /* eslint-disable ts/ban-ts-comment */
 import { UNITS } from '@mining-sdk/core'
 import { describe, expect, it } from 'vitest'
+import type { Device } from '../../types/device'
 import {
   formatPowerConsumption,
   getCabinetTitle,
   getConfig,
   getContainerSpecificStats,
+  getDeviceData,
   getHashrateString,
   getHashrateUnit,
   getLast,
@@ -825,6 +827,137 @@ describe('device utils', () => {
           field4: null,
           field5: { nested: 'object' },
         })
+      })
+    })
+  })
+
+  describe('getDeviceData', () => {
+    describe('null/undefined handling', () => {
+      it('should return error when device is null', () => {
+        const [error, data] = getDeviceData(null)
+
+        expect(error).toBe('Device Not Found')
+        expect(data).toBeUndefined()
+      })
+
+      it('should return error when device is undefined', () => {
+        const [error, data] = getDeviceData(undefined)
+
+        expect(error).toBe('Device Not Found')
+        expect(data).toBeUndefined()
+      })
+    })
+
+    describe('missing last data', () => {
+      it('should return device with empty snap when last is missing', () => {
+        const device: Device = {
+          id: 'device-1',
+          type: 'container',
+          tags: ['tag1'],
+          rack: 'rack-1',
+          username: 'user1',
+          containerId: 'container-1',
+        }
+
+        const [error, data] = getDeviceData(device)
+
+        expect(error).toBeUndefined()
+        expect(data).toBeDefined()
+        expect(data?.snap).toEqual({ stats: {}, config: {} })
+        expect(data?.err).toBe('Last Device info not found')
+        expect(data?.id).toBe('device-1')
+      })
+    })
+
+    describe('valid device data', () => {
+      it('should return device data with snap when last exists', () => {
+        const device: Device = {
+          id: 'device-1',
+          type: 'container',
+          tags: ['tag1'],
+          rack: 'rack-1',
+          username: 'user1',
+          containerId: 'container-1',
+          last: {
+            snap: {
+              stats: { temperature: 25 },
+              config: { mode: 'auto' },
+            },
+            alerts: [],
+          },
+        } as unknown as Device
+
+        const [error, data] = getDeviceData(device)
+
+        expect(error).toBeUndefined()
+        expect(data).toBeDefined()
+      })
+
+      it('should return error when last contains error', () => {
+        const device: Device = {
+          id: 'device-1',
+          type: 'container',
+          last: {
+            err: 'Connection timeout',
+            snap: {
+              stats: {},
+              config: {},
+            },
+          },
+        } as unknown as Device
+
+        const [error, data] = getDeviceData(device)
+
+        expect(error).toBe('Connection timeout')
+        expect(data).toBeDefined()
+        expect(data?.err).toBe('Connection timeout')
+      })
+
+      it('should use default snap when snap is null', () => {
+        const device: Device = {
+          id: 'device-1',
+          last: {
+            snap: null,
+          },
+        } as unknown as Device
+
+        const [error, data] = getDeviceData(device)
+
+        expect(error).toBeUndefined()
+        expect(data?.snap).toEqual({ stats: {}, config: {} })
+      })
+
+      it('should preserve all device properties', () => {
+        const device: Device = {
+          id: 'device-1',
+          type: 'container',
+          tags: ['tag1', 'tag2'],
+          rack: 'rack-1',
+          username: 'user1',
+          info: { location: 'datacenter-1' },
+          containerId: 'container-1',
+          address: '192.168.1.1',
+          last: {
+            snap: {
+              stats: { power: 100 },
+              config: {},
+            },
+            alerts: [{ type: 'warning' }],
+          },
+        } as unknown as Device
+
+        const [error, data] = getDeviceData(device)
+
+        expect(error).toBeUndefined()
+        expect(data?.id).toBe('device-1')
+        expect(data?.type).toBe('container')
+        expect(data?.tags).toEqual(['tag1', 'tag2'])
+        expect(data?.rack).toBe('rack-1')
+        expect(data?.username).toBe('user1')
+        expect(data?.info).toEqual({ location: 'datacenter-1' })
+        expect(data?.containerId).toBe('container-1')
+        expect(data?.address).toBe('192.168.1.1')
+        expect(data?.alerts).toEqual([{ type: 'warning' }])
       })
     })
   })

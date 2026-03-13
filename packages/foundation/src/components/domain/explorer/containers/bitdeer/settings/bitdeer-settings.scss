@@ -3,11 +3,13 @@
 .mining-sdk-bitdeer-settings {
   @include flex_column;
 
-  gap: 1.5rem;
+  gap: 2rem;
 
-  &__divider {
-    height: 1px;
-    background-color: var(--mining-sdk-color-dark-grey, #333333);
-    margin: 0.5rem 0;
+  &__params {
+    width: 100%;
+  }
+
+  &__thresholds {
+    width: 100%;
   }
 }

@@ -26,7 +26,7 @@ export type ChartDataPayload = {
   valueDecimals?: number
 }
 
-type ContainerChartsBuilderProps = {
+export type ContainerChartsBuilderProps = {
   tag?: string
   chartDataPayload?: ChartDataPayload
   chartTitle?: string
@@ -56,6 +56,7 @@ const ContainerChartsBuilder = ({
   data = [],
   timeline: initialTimeline = '24h',
   fixedTimezone,
+  height,
   showLegend = true,
   showRangeSelector = true,
   rangeOptions = DEFAULT_RANGE_OPTIONS,
@@ -213,6 +214,7 @@ const ContainerChartsBuilder = ({
       <LineChart
         chartRef={chartRef}
         data={chartData}
+        height={height}
         yTicksFormatter={yTicksFormatter}
         roundPrecision={chartDataPayload.valueDecimals}
         timeline={selectedTimeline}

@@ -132,7 +132,10 @@ export const COMPONENT_NAV: SidebarMenuItem[] = [
       {
         id: 'explorer-containers',
         label: 'Containers',
-        items: [{ id: 'bitdeer-container', label: 'Bitdeer Contaienr' }],
+        items: [
+          { id: 'bitdeer-container', label: 'Bitdeer Contaienr' },
+          { id: 'bitmain-container', label: 'Bitmain Contaienr' },
+        ],
       },
     ],
   },

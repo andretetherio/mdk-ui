@@ -1,13 +1,6 @@
-import type { UnknownRecord } from '@mining-sdk/core'
-
-export type DeviceSnap = {
-  stats?: UnknownRecord
-  config?: UnknownRecord
-}
-
 export type DeviceLast = {
   err?: string | null
-  snap?: DeviceSnap
+  snap?: Partial<ContainerSnap>
   alerts?: unknown[] | null
   [key: string]: unknown
 }
@@ -50,6 +43,9 @@ export type ContainerStats = {
   humidity_percent: number
   power_w: number
   container_specific: Record<string, unknown>
+  distribution_box1_power_w: number
+  distribution_box2_power_w: number
+  [key: string]: unknown
 }
 
 export type ContainerLast = {
@@ -81,7 +77,8 @@ export type LvCabinetRecord = {
 }
 
 export type ContainerSnap = {
-  stats?: ContainerStats
+  stats?: Partial<ContainerStats>
+  config?: Record<string, unknown>
 }
 
 export type MinerHashrateMhs = {

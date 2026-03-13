@@ -1,7 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@mining-sdk/core'
 import type { ReactElement } from 'react'
 
-import './bitdeer-page.scss'
+import '../styles/_contaienrs-page-common.scss'
 import BitdeerChartsDemo from './charts/bitdeer-charts-demo'
 import { BitdeerOptionsDemo } from './home/bitdeer-options-demo'
 import { BitdeerSettingsPage } from './settings/bitdeer-settings-page'
@@ -13,13 +13,13 @@ import { BitdeerSettingsPage } from './settings/bitdeer-settings-page'
  */
 export const BitdeerPage = (): ReactElement => {
   return (
-    <div className="bitdeer-page">
-      <header className="bitdeer-page__header">
+    <div className="explorer-containers">
+      <header className="explorer-containers-page__header">
         <h1>Bitdeer Container Components</h1>
         <p>Interactive demonstrations of container management components</p>
       </header>
 
-      <Tabs defaultValue="settings" className="bitdeer-page__tabs">
+      <Tabs defaultValue="settings" className="explorer-containers-page__tabs">
         <TabsList>
           <TabsTrigger value="settings">Container Settings</TabsTrigger>
           <TabsTrigger value="cooling">Cooling System</TabsTrigger>

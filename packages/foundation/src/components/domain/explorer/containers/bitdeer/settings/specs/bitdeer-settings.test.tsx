@@ -106,11 +106,6 @@ describe('bitdeerSettings', () => {
       expect(container.querySelector('.mining-sdk-bitdeer-settings')).toBeInTheDocument()
     })
 
-    it('renders divider between components', () => {
-      const { container } = renderWithProviders(<BitdeerSettings data={mockData} />)
-      expect(container.querySelector('.mining-sdk-bitdeer-settings__divider')).toBeInTheDocument()
-    })
-
     it('renders with default empty object when no data provided', () => {
       renderWithProviders(<BitdeerSettings />)
       expect(screen.getByTestId('container-params-settings')).toBeInTheDocument()

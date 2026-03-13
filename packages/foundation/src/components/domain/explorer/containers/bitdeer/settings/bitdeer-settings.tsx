@@ -38,26 +38,28 @@ type BitdeerSettingsProps = {
  */
 export const BitdeerSettings = ({ data = {} }: BitdeerSettingsProps): ReactElement => (
   <div className="mining-sdk-bitdeer-settings">
-    <ContainerParamsSettings data={data} />
+    <section className="mining-sdk-bitdeer-settings__params">
+      <ContainerParamsSettings data={data} />
+    </section>
 
-    <div className="mining-sdk-bitdeer-settings__divider" />
-
-    <EditableThresholdForm
-      data={data}
-      oilTempColorFunc={(value: number) => getBitdeerOilTemperatureColor(true, value, data)}
-      oilTempFlashFunc={(value: number) =>
-        shouldBitdeerOilTemperatureFlash(true, value, data?.status as string, data)
-      }
-      oilTempSuperflashFunc={(value: number) =>
-        shouldBitdeerOilTemperatureSuperflash(true, value, data?.status as string, data)
-      }
-      tankPressureColorFunc={(value: number) => getBitdeerTankPressureColor(true, value, data)}
-      tankPressureFlashFunc={(value: number) =>
-        shouldBitdeerTankPressureFlash(true, value, data?.status as string, data)
-      }
-      tankPressureSuperflashFunc={(value: number) =>
-        shouldBitdeerTankPressureSuperflash(true, value, data?.status as string, data)
-      }
-    />
+    <section className="mining-sdk-bitdeer-settings__thresholds">
+      <EditableThresholdForm
+        data={data}
+        oilTempColorFunc={(value: number) => getBitdeerOilTemperatureColor(true, value, data)}
+        oilTempFlashFunc={(value: number) =>
+          shouldBitdeerOilTemperatureFlash(true, value, data?.status as string, data)
+        }
+        oilTempSuperflashFunc={(value: number) =>
+          shouldBitdeerOilTemperatureSuperflash(true, value, data?.status as string, data)
+        }
+        tankPressureColorFunc={(value: number) => getBitdeerTankPressureColor(true, value, data)}
+        tankPressureFlashFunc={(value: number) =>
+          shouldBitdeerTankPressureFlash(true, value, data?.status as string, data)
+        }
+        tankPressureSuperflashFunc={(value: number) =>
+          shouldBitdeerTankPressureSuperflash(true, value, data?.status as string, data)
+        }
+      />
+    </section>
   </div>
 )
