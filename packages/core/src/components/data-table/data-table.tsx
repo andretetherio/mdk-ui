@@ -357,6 +357,7 @@ export function DataTable<I = unknown>({
             onChange={handlePageChange}
             pageSize={pagination.pageSize}
             onSizeChange={handlePageSizeChange}
+            disabled={loading}
           />
         </div>
       )}
