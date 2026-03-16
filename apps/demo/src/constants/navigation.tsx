@@ -133,8 +133,9 @@ export const COMPONENT_NAV: SidebarMenuItem[] = [
         id: 'explorer-containers',
         label: 'Containers',
         items: [
-          { id: 'bitdeer-container', label: 'Bitdeer Contaienr' },
-          { id: 'bitmain-container', label: 'Bitmain Contaienr' },
+          { id: 'bitdeer-container', label: 'Bitdeer Container' },
+          { id: 'bitmain-container', label: 'Bitmain Container' },
+          { id: 'bitmain-immersion-container', label: 'Bitmain Immersion Container Settingg' },
         ],
       },
     ],

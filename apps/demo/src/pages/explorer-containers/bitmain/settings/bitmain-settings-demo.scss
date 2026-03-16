@@ -6,16 +6,6 @@
     }
   }
 
-  &__presets {
-    margin-bottom: 2rem;
-  }
-
-  &__preset-buttons {
-    @include flex_wrap;
-
-    gap: 0.75rem;
-  }
-
   &__custom-grid {
     display: grid;
     grid-template-columns: 1fr;

@@ -1,12 +1,12 @@
-import type { UnknownRecord } from '@mining-sdk/core'
 import type { ReactElement } from 'react'
+import type { Device } from '../../../../../../../types/device'
 import { getBitdeerCoolingSystemData } from '../bitdeer-settings-utils'
 import './bitdeer-options.scss'
 import { BitdeerPumps } from './bitdeer-pumps'
 import { DryCooler } from './dry-cooler/dry-cooler'
 
 type BitdeerOptionsProps = {
-  data?: UnknownRecord
+  data?: Device
 }
 
 /**

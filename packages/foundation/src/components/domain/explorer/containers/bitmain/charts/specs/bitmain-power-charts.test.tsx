@@ -16,7 +16,14 @@ vi.mock('../../../../../container-charts-builder', () => ({
     </div>
   )),
 }))
-
+vi.mock('@mining-sdk/core', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@mining-sdk/core')>()
+  return {
+    ...actual,
+    safeNumber: vi.fn((number) => number ?? 0),
+    safeString: vi.fn((str) => str ?? ''),
+  }
+})
 describe('bitMainPowerCharts', () => {
   const mockData: UnknownRecord[] = [
     {

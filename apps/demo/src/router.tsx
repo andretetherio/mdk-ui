@@ -5,6 +5,7 @@ import App from './App'
 import { ListViewFilterExample } from './examples/list-view-filter-example/list-view-filter-example'
 import { ChartWrapperPage } from './pages'
 import { BitdeerPage } from './pages/explorer-containers/bitdeer/bitdeer-page'
+import { BitmainImmersionPage } from './pages/explorer-containers/bitmain-immersion/bitmain-immersion-page'
 import BitmainPage from './pages/explorer-containers/bitmain/bitmain-page'
 import { MosaicPageDemo } from './pages/mosaic-page/mosaic.page'
 import { StateExportsPage } from './pages/stats-export-page'
@@ -234,6 +235,10 @@ export const router = createBrowserRouter(
         { path: 'device-explorer', element: withSuspense(DeviceExplorerPage) },
         { path: 'bitdeer-container', element: withSuspense(BitdeerPage) },
         { path: 'bitmain-container', element: withSuspense(BitmainPage) },
+        {
+          path: 'bitmain-immersion-container',
+          element: withSuspense(BitmainImmersionPage),
+        },
         { path: '*', element: withSuspense(NotFoundPage) },
       ],
     },

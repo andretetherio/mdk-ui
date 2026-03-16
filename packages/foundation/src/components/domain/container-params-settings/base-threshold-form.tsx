@@ -329,5 +329,3 @@ export const BaseThresholdForm = ({
     </>
   )
 }
-
-export default BaseThresholdForm

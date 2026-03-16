@@ -1,4 +1,4 @@
-import { formatNumber, unitToKilo } from '@mining-sdk/core'
+import { formatNumber, safeNumber, safeString, unitToKilo } from '@mining-sdk/core'
 import type { ReactElement } from 'react'
 import type { ContainerSnap, Device } from '../../../../../../../../types/device'
 import { getDeviceData } from '../../../../../../../../utils/device-utils'
@@ -8,26 +8,6 @@ import './bitmain-power-and-positioning.scss'
 type BitMainPowerAndPositioningProps = {
   /** Container data */
   data?: Device
-}
-
-/**
- * Safely converts unknown value to number for unitToKilo
- * Returns 0 if value is not a number
- */
-const safeNumber = (value: unknown): number => {
-  const num = Number(value)
-  return Number.isNaN(num) ? 0 : num
-}
-
-/**
- * Safely converts unknown value to string for display
- * Returns empty string if value is null or undefined
- */
-const safeString = (value: unknown): string => {
-  if (value == null) {
-    return ''
-  }
-  return String(value)
 }
 
 /**

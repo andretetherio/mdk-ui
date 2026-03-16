@@ -9,6 +9,8 @@ import { BitMainPowerAndPositioning } from '../settings/power-and-positioning/bi
 vi.mock('@mining-sdk/core', () => ({
   formatNumber: vi.fn((num) => num.toFixed(2)),
   unitToKilo: vi.fn((num) => num / 1000),
+  safeNumber: vi.fn((number) => number ?? 0),
+  safeString: vi.fn((str) => str ?? ''),
 }))
 
 vi.mock('../../../../../../../utils/device-utils', () => ({

@@ -1,5 +1,6 @@
 import type { UnknownRecord } from '@mining-sdk/core'
 import { Button } from '@mining-sdk/core'
+import type { Device } from '@mining-sdk/foundation'
 import { BitdeerOptions } from '@mining-sdk/foundation'
 import type { ReactElement } from 'react'
 import { useState } from 'react'
@@ -364,7 +365,7 @@ export const BitdeerOptionsDemo = (): ReactElement => {
       <section className="dry-cooler-demo__component">
         <h2>Component Output</h2>
         <div className="dry-cooler-demo__component-wrapper">
-          <BitdeerOptions data={currentScenario.data} />
+          <BitdeerOptions data={currentScenario.data as Device} />
         </div>
       </section>
     </div>
