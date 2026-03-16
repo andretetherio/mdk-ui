@@ -29,19 +29,19 @@
   @include flex_align;
 
   position: relative;
+  gap: 0;
   width: 100%;
   min-width: 220px;
-  gap: 0;
-  padding: 6px 2.5rem 6px 8px;
   min-height: 34px;
   overflow-x: hidden;
   overflow-y: visible;
+  font-family: inherit;
+  padding: 8px 9px 8px 15px;
   font-size: var(--mining-sdk-font-size, 14px);
   line-height: var(--mining-sdk-line-height, 22px);
-  font-family: inherit;
-  color: var(--mining-sdk-tag-input-text, var(--mining-sdk-color-text-secondary));
   background: var(--mining-sdk-tag-input-bg, transparent);
   border: 1px solid rgba(var(--mining-sdk-color-primary-rgb), 0.5);
+  color: var(--mining-sdk-tag-input-text, var(--mining-sdk-color-text-secondary));
   border-radius: 0;
   outline: none;
   transition:
