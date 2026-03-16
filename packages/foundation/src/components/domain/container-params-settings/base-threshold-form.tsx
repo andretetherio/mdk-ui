@@ -310,15 +310,12 @@ export const BaseThresholdForm = ({
       {/* Action Buttons */}
       {isEditing && (
         <div className="mining-sdk-base-threshold-form__action-buttons">
-          <Button size="sm" onClick={handleCancel}>
-            Cancel
-          </Button>
-          <Button size="sm" variant="danger" color="red" onClick={handleReset}>
+          <Button onClick={handleCancel}>Cancel</Button>
+          <Button variant="danger" color="red" onClick={handleReset}>
             Reset Values to Default
           </Button>
           <Button
             variant="primary"
-            size="sm"
             onClick={handleSave}
             disabled={isSaving || isSiteLoading || isSettingsLoading}
           >
