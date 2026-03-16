@@ -9,6 +9,7 @@ import { BitmainImmersionPage } from './pages/explorer-containers/bitmain-immers
 import BitmainPage from './pages/explorer-containers/bitmain/bitmain-page'
 import { MosaicPageDemo } from './pages/mosaic-page/mosaic.page'
 import { StateExportsPage } from './pages/stats-export-page'
+import { WidgetTopRowPage } from './pages/widget-top-row-page'
 
 // Lazy load ALL pages to eliminate unused JavaScript and CSS
 const HomePage = lazy(() => import('./pages/home-page').then((m) => ({ default: m.HomePage })))
@@ -227,6 +228,7 @@ export const router = createBrowserRouter(
         { path: 'spinner', element: withSuspense(SpinnerPage) },
         { path: 'loader', element: withSuspense(LoaderPage) },
         { path: 'stats-export', element: withSuspense(StateExportsPage) },
+        { path: 'widget-top-row', element: withSuspense(WidgetTopRowPage) },
         { path: 'error-boundary', element: withSuspense(ErrorBoundaryPage) },
         { path: 'error-card', element: withSuspense(ErrorCardPage) },
         { path: 'active-incidents-card', element: withSuspense(ActiveIncidentsCardPage) },
