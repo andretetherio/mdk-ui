@@ -7,6 +7,7 @@ import { ChartWrapperPage } from './pages'
 import { BitdeerPage } from './pages/explorer-containers/bitdeer/bitdeer-page'
 import { BitmainImmersionPage } from './pages/explorer-containers/bitmain-immersion/bitmain-immersion-page'
 import BitmainPage from './pages/explorer-containers/bitmain/bitmain-page'
+import { MicroBTPage } from './pages/explorer-containers/micro-bt/micro-bt-page'
 import { MosaicPageDemo } from './pages/mosaic-page/mosaic.page'
 import { StateExportsPage } from './pages/stats-export-page'
 import { WidgetTopRowPage } from './pages/widget-top-row-page'
@@ -241,6 +242,7 @@ export const router = createBrowserRouter(
           path: 'bitmain-immersion-container',
           element: withSuspense(BitmainImmersionPage),
         },
+        { path: 'micro-bt-container', element: withSuspense(MicroBTPage) },
         { path: '*', element: withSuspense(NotFoundPage) },
       ],
     },

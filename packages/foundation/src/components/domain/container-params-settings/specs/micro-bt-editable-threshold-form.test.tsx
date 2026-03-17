@@ -1,15 +1,15 @@
 import { render, screen } from '@testing-library/react'
-import { describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import type { Device } from '../../../../types/device'
 import { BaseThresholdForm } from '../base-threshold-form'
-import { ImmersionEditableThresholdForm } from '../immersion-editable-threshold-form'
+import { MicroBTEditableThresholdForm } from '../micro-bt-editable-threshold-form'
 
 vi.mock('../base-threshold-form', () => ({
   BaseThresholdForm: vi.fn(({ thresholdConfigs }) => (
     <div data-testid="base-threshold-form">
       {thresholdConfigs.map((config: any) => (
         <div key={config.type} data-testid={`config-${config.type}`}>
-          {config.title}
+          <span>{config.title}</span>
           {config.unit && <span>{config.unit}</span>}
         </div>
       ))}
@@ -17,10 +17,10 @@ vi.mock('../base-threshold-form', () => ({
   )),
 }))
 
-describe('ImmersionEditableThresholdForm', () => {
+describe('MicroBTEditableThresholdForm', () => {
   const mockDevice: Device = {
     id: 'device-1',
-    type: 'bitmain-immersion',
+    type: 'microbt',
     status: 'active',
     last: {
       snap: {
@@ -30,13 +30,17 @@ describe('ImmersionEditableThresholdForm', () => {
     },
   }
 
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
   it('renders without crashing', () => {
-    render(<ImmersionEditableThresholdForm />)
+    render(<MicroBTEditableThresholdForm />)
     expect(screen.getByTestId('base-threshold-form')).toBeInTheDocument()
   })
 
   it('passes data to BaseThresholdForm', () => {
-    render(<ImmersionEditableThresholdForm data={mockDevice} />)
+    render(<MicroBTEditableThresholdForm data={mockDevice} />)
 
     expect(BaseThresholdForm).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -46,22 +50,22 @@ describe('ImmersionEditableThresholdForm', () => {
     )
   })
 
-  it('configures oil temperature threshold', () => {
-    render(<ImmersionEditableThresholdForm />)
+  it('configures water temperature threshold', () => {
+    render(<MicroBTEditableThresholdForm />)
 
-    expect(screen.getByText('Oil Temperature (°C)')).toBeInTheDocument()
+    expect(screen.getByText('Water Temperature (°C)')).toBeInTheDocument()
     expect(screen.getByText('°C')).toBeInTheDocument()
   })
 
   it('passes threshold configuration to BaseThresholdForm', () => {
-    render(<ImmersionEditableThresholdForm />)
+    render(<MicroBTEditableThresholdForm />)
 
     expect(BaseThresholdForm).toHaveBeenCalledWith(
       expect.objectContaining({
         thresholdConfigs: expect.arrayContaining([
           expect.objectContaining({
-            type: 'oilTemperature',
-            title: 'Oil Temperature (°C)',
+            type: 'waterTemperature',
+            title: 'Water Temperature (°C)',
             unit: '°C',
           }),
         ]),
@@ -72,7 +76,7 @@ describe('ImmersionEditableThresholdForm', () => {
 
   it('passes color function when provided', () => {
     const colorFunc = vi.fn(() => 'red')
-    render(<ImmersionEditableThresholdForm oilTempColorFunc={colorFunc} />)
+    render(<MicroBTEditableThresholdForm waterTempColorFunc={colorFunc} />)
 
     expect(BaseThresholdForm).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -88,7 +92,7 @@ describe('ImmersionEditableThresholdForm', () => {
 
   it('passes flash function when provided', () => {
     const flashFunc = vi.fn(() => true)
-    render(<ImmersionEditableThresholdForm oilTempFlashFunc={flashFunc} />)
+    render(<MicroBTEditableThresholdForm waterTempFlashFunc={flashFunc} />)
 
     expect(BaseThresholdForm).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -104,7 +108,7 @@ describe('ImmersionEditableThresholdForm', () => {
 
   it('passes superflash function when provided', () => {
     const superflashFunc = vi.fn(() => false)
-    render(<ImmersionEditableThresholdForm oilTempSuperflashFunc={superflashFunc} />)
+    render(<MicroBTEditableThresholdForm waterTempSuperflashFunc={superflashFunc} />)
 
     expect(BaseThresholdForm).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -124,11 +128,11 @@ describe('ImmersionEditableThresholdForm', () => {
     const superflashFunc = vi.fn()
 
     render(
-      <ImmersionEditableThresholdForm
+      <MicroBTEditableThresholdForm
         data={mockDevice}
-        oilTempColorFunc={colorFunc}
-        oilTempFlashFunc={flashFunc}
-        oilTempSuperflashFunc={superflashFunc}
+        waterTempColorFunc={colorFunc}
+        waterTempFlashFunc={flashFunc}
+        waterTempSuperflashFunc={superflashFunc}
       />,
     )
 
@@ -137,7 +141,7 @@ describe('ImmersionEditableThresholdForm', () => {
         data: mockDevice,
         thresholdConfigs: expect.arrayContaining([
           expect.objectContaining({
-            type: 'oilTemperature',
+            type: 'waterTemperature',
             colorFunc,
             flashFunc,
             superflashFunc,
@@ -149,15 +153,15 @@ describe('ImmersionEditableThresholdForm', () => {
   })
 
   it('renders without optional functions', () => {
-    render(<ImmersionEditableThresholdForm data={mockDevice} />)
+    render(<MicroBTEditableThresholdForm data={mockDevice} />)
 
     expect(BaseThresholdForm).toHaveBeenCalledWith(
       expect.objectContaining({
         data: mockDevice,
         thresholdConfigs: expect.arrayContaining([
           expect.objectContaining({
-            type: 'oilTemperature',
-            title: 'Oil Temperature (°C)',
+            type: 'waterTemperature',
+            title: 'Water Temperature (°C)',
           }),
         ]),
       }),

@@ -136,7 +136,8 @@ export const COMPONENT_NAV: SidebarMenuItem[] = [
         items: [
           { id: 'bitdeer-container', label: 'Bitdeer Container' },
           { id: 'bitmain-container', label: 'Bitmain Container' },
-          { id: 'bitmain-immersion-container', label: 'Bitmain Immersion Container Settingg' },
+          { id: 'bitmain-immersion-container', label: 'Bitmain Immersion Container' },
+          { id: 'micro-bt-container', label: 'Micro BT Container' },
         ],
       },
     ],
