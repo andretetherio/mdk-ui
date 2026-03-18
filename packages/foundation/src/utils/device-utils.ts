@@ -279,3 +279,5 @@ export const getDeviceData = (
     },
   ]
 }
+
+export const appendContainerToTag = (deviceId: string): string => `container-${deviceId}`
