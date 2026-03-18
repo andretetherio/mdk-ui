@@ -159,6 +159,10 @@ const DeviceExplorerPage = lazy(() =>
   })),
 )
 
+const TanksBoxPage = lazy(() =>
+  import('./pages/tanks-box-page').then((m) => ({ default: m.TanksBoxPage })),
+)
+
 const SectionLoader = (): JSX.Element => (
   <div
     style={{
@@ -230,6 +234,7 @@ export const router = createBrowserRouter(
         { path: 'loader', element: withSuspense(LoaderPage) },
         { path: 'stats-export', element: withSuspense(StateExportsPage) },
         { path: 'widget-top-row', element: withSuspense(WidgetTopRowPage) },
+        { path: 'tanks-box', element: withSuspense(TanksBoxPage) },
         { path: 'error-boundary', element: withSuspense(ErrorBoundaryPage) },
         { path: 'error-card', element: withSuspense(ErrorCardPage) },
         { path: 'active-incidents-card', element: withSuspense(ActiveIncidentsCardPage) },
