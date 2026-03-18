@@ -8,6 +8,8 @@ import { BitdeerPage } from './pages/explorer-containers/bitdeer/bitdeer-page'
 import { BitmainImmersionPage } from './pages/explorer-containers/bitmain-immersion/bitmain-immersion-page'
 import BitmainPage from './pages/explorer-containers/bitmain/bitmain-page'
 import { MicroBTPage } from './pages/explorer-containers/micro-bt/micro-bt-page'
+import { SecondaryStatCardDemo } from './pages/explorer-details-view/secondary-stat-card/secondary-stat-card-demo'
+import { SingleStatCardDemo } from './pages/explorer-details-view/single-stat-card/single-stat-card-demo'
 import { MosaicPageDemo } from './pages/mosaic-page/mosaic.page'
 import { StateExportsPage } from './pages/stats-export-page'
 import { WidgetTopRowPage } from './pages/widget-top-row-page'
@@ -252,6 +254,8 @@ export const router = createBrowserRouter(
           element: withSuspense(BitmainImmersionPage),
         },
         { path: 'micro-bt-container', element: withSuspense(MicroBTPage) },
+        { path: 'secondary-stat-card', element: withSuspense(SecondaryStatCardDemo) },
+        { path: 'single-stat-card', element: withSuspense(SingleStatCardDemo) },
         { path: '*', element: withSuspense(NotFoundPage) },
       ],
     },

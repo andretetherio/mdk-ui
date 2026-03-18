@@ -142,6 +142,14 @@ export const COMPONENT_NAV: SidebarMenuItem[] = [
           { id: 'micro-bt-container', label: 'Micro BT Container' },
         ],
       },
+      {
+        id: 'explorer-details-view',
+        label: 'Details View',
+        items: [
+          { id: 'single-stat-card', label: 'Single Stat Card' },
+          { id: 'secondary-stat-card', label: 'Secondary Stat Card' },
+        ],
+      },
     ],
   },
 ]
