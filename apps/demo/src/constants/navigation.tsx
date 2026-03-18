@@ -122,6 +122,7 @@ export const COMPONENT_NAV: SidebarMenuItem[] = [
       { id: 'pool-details-popover', label: 'Pool Details Popover' },
       { id: 'stats-export', label: 'Stats Export Dropdown' },
       { id: 'widget-top-row', label: 'Widget Top Row' },
+      { id: 'logs-card', label: 'Logs Card' },
       { id: 'tanks-box', label: 'Tanks Box' },
     ],
   },

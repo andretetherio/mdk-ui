@@ -60,6 +60,9 @@ const GaugeChartPage = lazy(() =>
 const LoaderPage = lazy(() =>
   import('./pages/loader-page').then((m) => ({ default: m.LoaderPage })),
 )
+const LogsCardPage = lazy(() =>
+  import('./pages/logs-card-page').then((m) => ({ default: m.LogsCardPage })),
+)
 const NotFoundPage = lazy(() =>
   import('./pages/not-found-page').then((m) => ({ default: m.NotFoundPage })),
 )
@@ -232,6 +235,7 @@ export const router = createBrowserRouter(
         { path: 'sidebar', element: withSuspense(SidebarPage) },
         { path: 'spinner', element: withSuspense(SpinnerPage) },
         { path: 'loader', element: withSuspense(LoaderPage) },
+        { path: 'logs-card', element: withSuspense(LogsCardPage) },
         { path: 'stats-export', element: withSuspense(StateExportsPage) },
         { path: 'widget-top-row', element: withSuspense(WidgetTopRowPage) },
         { path: 'tanks-box', element: withSuspense(TanksBoxPage) },
