@@ -16,6 +16,38 @@ env:
   NODE_VERSION: '20.x'
 
 jobs:
+  detect-package-manager:
+    name: 🔎 Detect package manager
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    permissions:
+      contents: read
+    outputs:
+      package_manager: ${{ steps.detect.outputs.package_manager }}
+      pnpm_version: ${{ steps.detect.outputs.pnpm_version }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: true
+          ref: ${{ github.event.pull_request.number && format('refs/pull/{0}/head', github.event.pull_request.number) || github.ref }}
+
+      - name: Detect npm vs pnpm
+        id: detect
+        shell: bash
+        run: |
+          if [ -f pnpm-lock.yaml ] || grep -q '"packageManager"[[:space:]]*:[[:space:]]*"pnpm@' package.json 2>/dev/null; then
+            ver=$(grep -m1 '"packageManager"' package.json 2>/dev/null | sed -n 's/.*pnpm@\([0-9.]*\).*/\1/p' || true)
+            ver=${ver:-10}
+            echo "package_manager=pnpm" >> "$GITHUB_OUTPUT"
+            echo "pnpm_version=${ver}" >> "$GITHUB_OUTPUT"
+            echo "🔎 Using pnpm@${ver} (pnpm-lock.yaml and/or packageManager field)"
+          else
+            echo "package_manager=npm" >> "$GITHUB_OUTPUT"
+            echo "pnpm_version=" >> "$GITHUB_OUTPUT"
+            echo "🔎 Using npm (no pnpm lockfile / packageManager)"
+          fi
+
   dependency-review:
     name: 📋 Dependency Review
     runs-on: ubuntu-latest
@@ -41,10 +73,13 @@ jobs:
     name: 📦 Setup Dependencies
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    needs: detect-package-manager
     permissions:
       contents: read
     outputs:
       cache-key: ${{ steps.setup-node.outputs.cache-key }}
+      package_manager: ${{ needs.detect-package-manager.outputs.package_manager }}
+      pnpm_version: ${{ needs.detect-package-manager.outputs.pnpm_version }}
 
     steps:
       - name: Checkout repository
@@ -61,6 +96,7 @@ jobs:
       - name: Check package-lock.json consistency
         continue-on-error: true
         run: |
+          # pnpm lockfile is enforced by pnpm install --frozen-lockfile in node-setup-cache
           if [ -f package-lock.json ]; then
             npm install --package-lock-only --no-audit --no-fund
             git diff --exit-code package-lock.json || (
@@ -74,6 +110,8 @@ jobs:
         uses: ./.github/actions/node-setup-cache
         with:
           node-version: ${{ env.NODE_VERSION }}
+          package-manager: ${{ needs.detect-package-manager.outputs.package_manager }}
+          pnpm-version: ${{ needs.detect-package-manager.outputs.pnpm_version }}
 
   supply-chain:
     name: 🔐 Supply Chain Security
@@ -94,17 +132,34 @@ jobs:
         uses: ./.github/actions/node-restore-cache
         with:
           cache-key: ${{ needs.setup.outputs.cache-key }}
+          node-version: ${{ env.NODE_VERSION }}
+          package-manager: ${{ needs.setup.outputs.package_manager }}
+          pnpm-version: ${{ needs.setup.outputs.pnpm_version }}
 
       - name: Verify package integrity (npm audit signatures)
+        env:
+          PM: ${{ needs.setup.outputs.package_manager }}
         run: |
-          echo "🔐 Verifying npm package signatures..."
-          npm audit signatures 2>&1 || echo "::warning::Some packages may not have verified signatures (npm 10.7+ for full support)"
+          if [ "$PM" = "pnpm" ]; then
+            echo "🔐 Running pnpm audit..."
+            pnpm audit --audit-level=moderate 2>&1 || echo "::warning::pnpm audit reported issues"
+          else
+            echo "🔐 Verifying npm package signatures..."
+            npm audit signatures 2>&1 || echo "::warning::Some packages may not have verified signatures (npm 10.7+ for full support)"
+          fi
         continue-on-error: true
 
       - name: Check for known vulnerabilities (npm audit)
+        env:
+          PM: ${{ needs.setup.outputs.package_manager }}
         run: |
-          echo "🛡️ Checking for known vulnerabilities..."
-          npm audit --audit-level=high 2>&1 || echo "::warning::High severity vulnerabilities detected. Consider 'npm audit fix' or updating dependencies."
+          if [ "$PM" = "pnpm" ]; then
+            echo "🛡️ Checking for known vulnerabilities (pnpm)..."
+            pnpm audit --audit-level=high 2>&1 || echo "::warning::High severity vulnerabilities detected."
+          else
+            echo "🛡️ Checking for known vulnerabilities..."
+            npm audit --audit-level=high 2>&1 || echo "::warning::High severity vulnerabilities detected. Consider 'npm audit fix' or updating dependencies."
+          fi
         continue-on-error: true
 
   lint:
@@ -126,17 +181,32 @@ jobs:
         uses: ./.github/actions/node-restore-cache
         with:
           cache-key: ${{ needs.setup.outputs.cache-key }}
+          node-version: ${{ env.NODE_VERSION }}
+          package-manager: ${{ needs.setup.outputs.package_manager }}
+          pnpm-version: ${{ needs.setup.outputs.pnpm_version }}
 
       - name: Run linting
         continue-on-error: true
+        env:
+          PM: ${{ needs.setup.outputs.package_manager }}
         run: |
-          echo "Running linting..."
-          npm run lint --if-present || echo "::warning::Linting failed but continuing workflow"
+          echo "Running linting (package manager: $PM)..."
+          if [ "$PM" = "pnpm" ]; then
+            pnpm run lint --if-present || echo "::warning::Linting failed but continuing workflow"
+          else
+            npm run lint --if-present || echo "::warning::Linting failed but continuing workflow"
+          fi
 
       - name: Run typecheck (optional)
         continue-on-error: true
+        env:
+          PM: ${{ needs.setup.outputs.package_manager }}
         run: |
-          npm run typecheck --if-present || true
+          if [ "$PM" = "pnpm" ]; then
+            pnpm run typecheck --if-present || true
+          else
+            npm run typecheck --if-present || true
+          fi
 
   test-and-sonarqube:
     name: 🧪 Test Coverage & SonarQube Analysis
@@ -160,6 +230,9 @@ jobs:
         uses: ./.github/actions/node-restore-cache
         with:
           cache-key: ${{ needs.setup.outputs.cache-key }}
+          node-version: ${{ env.NODE_VERSION }}
+          package-manager: ${{ needs.setup.outputs.package_manager }}
+          pnpm-version: ${{ needs.setup.outputs.pnpm_version }}
 
       - name: Setup project configuration
         run: |
@@ -171,9 +244,15 @@ jobs:
 
       - name: Run tests with coverage
         id: run-tests
+        env:
+          PM: ${{ needs.setup.outputs.package_manager }}
         run: |
-          echo "Running tests with coverage..."
-          npm run test:coverage --if-present || npm test --if-present || echo "::warning::No test:coverage or test script; skipping"
+          echo "Running tests with coverage (package manager: $PM)..."
+          if [ "$PM" = "pnpm" ]; then
+            pnpm run test:coverage --if-present || pnpm test --if-present || echo "::warning::No test:coverage or test script; skipping"
+          else
+            npm run test:coverage --if-present || npm test --if-present || echo "::warning::No test:coverage or test script; skipping"
+          fi
 
       - name: Coverage (threshold + summary)
         id: coverage-summary
@@ -217,7 +296,14 @@ jobs:
 
       - name: Run build (optional)
         continue-on-error: true
-        run: npm run build --if-present || true
+        env:
+          PM: ${{ needs.setup.outputs.package_manager }}
+        run: |
+          if [ "$PM" = "pnpm" ]; then
+            pnpm run build --if-present || true
+          else
+            npm run build --if-present || true
+          fi
 
       - name: Tailscale
         id: tailscale
@@ -233,9 +319,15 @@ jobs:
       - name: Generate ESLint JSON report
         if: steps.tailscale.outcome == 'success'
         continue-on-error: true
+        env:
+          PM: ${{ needs.setup.outputs.package_manager }}
         run: |
           if [ -f eslint.config.cjs ]; then
-            npx eslint . --format json --output-file eslint-report.json
+            if [ "$PM" = "pnpm" ]; then
+              pnpm exec eslint . --format json --output-file eslint-report.json
+            else
+              npx eslint . --format json --output-file eslint-report.json
+            fi
           fi
 
       - name: Prepare SonarQube Configuration
@@ -290,7 +382,7 @@ jobs:
   summary:
     name: 📋 CI Summary
     runs-on: ubuntu-latest
-    needs: [setup, supply-chain, lint, test-and-sonarqube]
+    needs: [detect-package-manager, setup, supply-chain, lint, test-and-sonarqube]
     if: always() && !cancelled()
     permissions:
       contents: read
@@ -303,14 +395,20 @@ jobs:
 
       - name: 📊 Print summary
         env:
+          PM: ${{ needs.detect-package-manager.outputs.package_manager }}
+          PNPM_V: ${{ needs.detect-package-manager.outputs.pnpm_version }}
           R_SETUP: ${{ needs.setup.result || 'skipped' }}
           R_SUPPLY: ${{ needs.supply-chain.result || 'skipped' }}
           R_LINT: ${{ needs.lint.result || 'skipped' }}
           R_TEST: ${{ needs.test-and-sonarqube.result || 'skipped' }}
           COVERAGE: ${{ needs.test-and-sonarqube.outputs.coverage_result || '—' }}
         run: |
+          PKG_LINE="$PM"
+          [ -n "$PNPM_V" ] && PKG_LINE="$PM (pnpm $PNPM_V)"
           {
             echo "## 📊 CI Pipeline Summary"
+            echo ""
+            echo "- **Package manager:** ${PKG_LINE}"
             echo ""
             echo "### 📋 Commit information"
             echo "- **Commit:** $(git rev-parse HEAD)"
@@ -327,6 +425,6 @@ jobs:
             echo ""
             echo "### 🔧 Pipeline"
             echo "- ✅ Dependency review (PR only)"
-            echo "- ✅ Lockfile check, npm audit, lint, tests"
+            echo "- ✅ Lockfile check, audit, lint, tests"
             echo "- ✅ SonarQube (push to main or manual run)"
           } | tee -a "$GITHUB_STEP_SUMMARY"
