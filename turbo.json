@@ -6,7 +6,40 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },
+    "build:ts": {
+      "dependsOn": ["^build:ts"],
+      "outputs": ["dist/**"]
+    },
+    "build:scss": {
+      "dependsOn": ["^build:scss"],
+      "outputs": ["dist/**"]
+    },
     "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "preview": {
+      "dependsOn": ["build"],
+      "cache": false,
+      "persistent": true
+    },
+    "dev:ts": {
+      "cache": false,
+      "persistent": true
+    },
+    "dev:scss": {
+      "cache": false,
+      "persistent": true
+    },
+    "watch": {
+      "cache": false,
+      "persistent": true
+    },
+    "watch:ts": {
+      "cache": false,
+      "persistent": true
+    },
+    "watch:scss": {
       "cache": false,
       "persistent": true
     },
@@ -22,8 +55,19 @@
     "typecheck": {
       "dependsOn": ["^build"]
     },
+    "test": {
+      "dependsOn": ["^test"]
+    },
+    "test:watch": {
+      "cache": false,
+      "persistent": true
+    },
+    "test:coverage": {
+      "dependsOn": [],
+      "outputs": ["coverage/**"]
+    },
     "check": {
-      "dependsOn": ["lint", "typecheck"]
+      "dependsOn": ["lint", "format", "typecheck"]
     },
     "clean": {
       "cache": false

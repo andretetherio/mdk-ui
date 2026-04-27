@@ -4,9 +4,18 @@ node_modules
 
 # Build outputs
 dist
+dist-css
 .next
 out
 build
+
+# Test coverage
+coverage
+*.lcov
+
+# Compiled CSS (should be in dist, not src)
+packages/*/src/styles.css
+packages/*/src/styles.css.map
 
 # Turbo
 .turbo
