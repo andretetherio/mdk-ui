@@ -1,8 +1,8 @@
-# MDK
+# MDK Client
 
 > A developer-first toolkit providing pre-built components and seamless backend integration for building mining operations applications in days instead of weeks.
 
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/tetherto/miningos-app-ui/blob/staging/LICENSE)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/tetherto/mdk/blob/main/LICENSE)
 
 ## 📋 Table of Contents
 
@@ -42,7 +42,7 @@ The **MDK** is a comprehensive toolkit providing:
 
 This monorepo contains 2 main packages in a simplified architecture:
 
-### `@mdk/core`
+### `@tetherto/mdk-core-ui`
 
 Core UI components, utilities, types, and theme system. This package includes:
 
@@ -52,7 +52,7 @@ Core UI components, utilities, types, and theme system. This package includes:
 - Theme system with design tokens
 - SCSS-based styling
 
-### `@mdk/foundation`
+### `@tetherto/mdk-foundation-ui`
 
 Complete foundation with features, state management, and utilities. This package includes:
 
@@ -68,7 +68,7 @@ Complete foundation with features, state management, and utilities. This package
 Interactive demo showcasing all components.
 
 - **Location**: `apps/demo`
-- **Run**: `pnpm --filter @mdk/demo dev`
+- **Run**: `pnpm --filter @tetherto/mdk-demo-ui dev`
 
 📖 **See [docs/STRUCTURE.md](docs/STRUCTURE.md) for complete package details and dependency graph.**
 
@@ -99,8 +99,8 @@ Alternatively, you can use `npx pnpm` for all commands if you prefer not to enab
 
 ```bash
 # Clone the repository
-git clone https://github.com/tetherto/miningos-ui-kit.git
-cd miningos-ui-kit
+git clone https://github.com/tetherto/mdk.git
+cd mdk/ui-client
 
 # Install dependencies
 pnpm install
@@ -122,7 +122,7 @@ pnpm dev:demo
 pnpm build
 
 # Build specific package
-pnpm --filter @mdk/core build
+pnpm --filter @tetherto/mdk-core-ui build
 
 # Type check all packages
 pnpm typecheck
@@ -134,14 +134,14 @@ pnpm lint
 pnpm lint:fix
 ```
 
-### Using @mdk/core in Your App
+### Using @tetherto/mdk-core-ui in Your App
 
 1. Add the dependency to your app's `package.json`:
 
 ```json
 {
   "dependencies": {
-    "@mdk/core": "workspace:*"
+    "@tetherto/mdk-core-ui": "workspace:*"
   }
 }
 ```
@@ -149,8 +149,8 @@ pnpm lint:fix
 2. Import and use components:
 
 ```tsx
-import { Button, Dialog, Switch } from '@mdk/core'
-import '@mdk/core/styles.css'
+import { Button, Dialog, Switch } from '@tetherto/mdk-core-ui'
+import '@tetherto/mdk-core-ui/styles.css'
 
 const App = () => {
   return <Button variant="secondary">Click me</Button>
@@ -241,8 +241,8 @@ For detailed information, see:
 
 ### Package Documentation
 
-- **[@mdk/core](packages/core/README.md)** - Core components, utilities, and theme ([Usage Guide](packages/core/USAGE.md))
-- **[@mdk/foundation](packages/foundation/README.md)** - Complete foundation with features, state, API, and utilities
+- **[@tetherto/mdk-core-ui](packages/core/README.md)** - Core components, utilities, and theme ([Usage Guide](packages/core/USAGE.md))
+- **[@tetherto/mdk-foundation-ui](packages/foundation/README.md)** - Complete foundation with features, state, API, and utilities
 
 ### Demo App
 
@@ -259,13 +259,13 @@ For detailed information, see:
 
 ## Support
 
-- **Issues**: [GitHub Issues](https://github.com/tetherto/miningos-ui-kit/issues)
+- **Issues**: [GitHub Issues](https://github.com/tetherto/mdk/issues)
 
 ---
 
 ## License
 
-Apache 2.0 - See [LICENSE](https://github.com/tetherto/miningos-app-ui/blob/staging/LICENSE) for details.
+Apache 2.0 - See [LICENSE](https://github.com/tetherto/mdk/blob/main/LICENSE) for details.
 
 ---
 

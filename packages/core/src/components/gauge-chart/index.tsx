@@ -45,45 +45,17 @@ export const GaugeChart = React.forwardRef<HTMLDivElement, GaugeChartProps>(
     },
     ref,
   ) => {
-    const containerRef = React.useRef<HTMLDivElement | null>(null)
-    const [width, setWidth] = React.useState<number>(0)
-
-    React.useEffect(() => {
-      const currentElement = containerRef.current
-
-      if (!currentElement) return
-
-      const observer = new ResizeObserver(([entry]) => {
-        const width = entry!.contentRect.width
-        if (width > 0) setWidth(Math.round(width))
-      })
-
-      observer.observe(currentElement)
-      return () => observer.disconnect()
-    }, [])
-
     return (
-      <div
-        ref={(node) => {
-          containerRef.current = node
-          if (typeof ref === 'function') ref(node)
-          else if (ref) ref.current = node
-        }}
-        className={cn('mdk-gauge-chart', className)}
-        style={{ height }}
-      >
-        {width > 0 && (
-          <ReactGaugeChart
-            key={width}
-            id={id}
-            percent={Math.max(0, Math.min(1, percent))}
-            colors={colors}
-            arcWidth={arcWidth}
-            nrOfLevels={nrOfLevels}
-            hideText={hideText}
-            style={{ width: '100%', height: '100%' }}
-          />
-        )}
+      <div ref={ref} className={cn('mdk-gauge-chart', className)} style={{ height }}>
+        <ReactGaugeChart
+          id={id}
+          percent={Math.max(0, Math.min(1, percent))}
+          colors={colors}
+          arcWidth={arcWidth}
+          nrOfLevels={nrOfLevels}
+          hideText={hideText}
+          style={{ width: '100%', height: '100%' }}
+        />
       </div>
     )
   },

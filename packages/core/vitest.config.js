@@ -14,7 +14,7 @@ export default defineConfig({
 
     coverage: {
       provider: 'v8',
-      reporter: ['text-summary', 'html', 'lcov'],
+      reporter: ['text-summary', 'html', 'lcov', 'json'],
       reportOnFailure: true,
       include: ['src/**/*.{ts,tsx}'],
       exclude: [
@@ -52,7 +52,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': resolve(__dirname, './src'),
-      '@mdk/core': resolve(__dirname, './src'),
+      '@tetherto/mdk-core-ui': resolve(__dirname, './src'),
     },
   },
   define: {

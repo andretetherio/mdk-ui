@@ -4,8 +4,8 @@ import { defineConfig } from 'vitest/config'
 
 const alias = {
   '@': resolve(__dirname, './src'),
-  '@mdk/core': resolve(__dirname, '../core/src'),
-  '@mdk/foundation': resolve(__dirname, './src'),
+  '@tetherto/mdk-core-ui': resolve(__dirname, '../core/src'),
+  '@tetherto/mdk-foundation-ui': resolve(__dirname, './src'),
 }
 
 const define = {
@@ -57,7 +57,7 @@ export default defineConfig({
      */
     coverage: {
       provider: 'v8',
-      reporter: ['text-summary', 'html', 'lcov'],
+      reporter: ['text-summary', 'html', 'lcov', 'json'],
       include: ['src/**/*.{ts,tsx}'],
       exclude: [
         'src/**/*.{test,spec}.{ts,tsx}',

@@ -1,4 +1,4 @@
-import { BitMainImmersionSummaryBox } from '@mdk/foundation'
+import { BitMainImmersionSummaryBox } from '@tetherto/mdk-foundation-ui'
 import type { ComponentProps, ReactNode } from 'react'
 import './bitmain-immersion-summary-box-page.scss'
 
@@ -190,7 +190,7 @@ export const BitMainImmersionSummaryBoxPage = (): JSX.Element => (
         <h3>Missing liquid temperature fields (matches app: empty values, not 0°C)</h3>
         <p style={{ color: 'var(--muted-foreground)', fontSize: '14px', marginBottom: '0.5rem' }}>
           When <code>container_specific</code> omits supply temps, cards show no numeric value (same
-          as miningos-app-ui).
+          as mdk).
         </p>
         <SummaryDemoPreview>
           <BitMainImmersionSummaryBox

@@ -1,4 +1,4 @@
-import type { UnknownRecord } from '@mdk/core'
+import type { UnknownRecord } from '@tetherto/mdk-core-ui'
 import {
   convertUnits,
   FALLBACK,
@@ -7,7 +7,7 @@ import {
   HEATMAP,
   UNIT_LABELS,
   UNITS,
-} from '@mdk/core'
+} from '@tetherto/mdk-core-ui'
 import _capitalize from 'lodash/capitalize'
 import _find from 'lodash/find'
 import _get from 'lodash/get'
@@ -38,11 +38,9 @@ import { MINER_POWER_MODE } from './status-utils'
 
 const FLOAT_PRECISION = 2
 
-// eslint-disable-next-line regexp/no-misleading-capturing-group
-export const separateByHyphenRegExp = /([^_]+)-([^_]+)/
+export const separateByHyphenRegExp = /^([^_]+)-([^_-]+)$/
 
-// eslint-disable-next-line regexp/no-misleading-capturing-group
-export const separateByTwoHyphensRegExp = /([^_]+)-([^_]+)-([^_]+)/
+export const separateByTwoHyphensRegExp = /^([^_]+)-([^_-]+)-([^_-]+)$/
 
 const allUnits = _orderBy(
   _map(HASHRATE_LABEL_DIVISOR, (value, unit) => ({ unit, value })),

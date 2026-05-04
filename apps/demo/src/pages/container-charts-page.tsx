@@ -1,5 +1,8 @@
-import { ContainerCharts, TAGS_LABEL } from '@mdk/foundation'
-import type { ChartEntry, ContainerChartsDatasetBorderColorResolver } from '@mdk/foundation'
+import { ContainerCharts, TAGS_LABEL } from '@tetherto/mdk-foundation-ui'
+import type {
+  ChartEntry,
+  ContainerChartsDatasetBorderColorResolver,
+} from '@tetherto/mdk-foundation-ui'
 import { useMemo, useState } from 'react'
 import type { JSX, ReactNode } from 'react'
 
@@ -172,9 +175,9 @@ export const ContainerChartsPage = (): JSX.Element => {
         Overview dashboard for container miner combinations: combination selector plus liquid
         temperature (hot for Bitdeer), liquid low, oil (hidden for hydro / MicroBT), and pressure
         (hidden for immersion). Data and feature flags are passed in by the host app; chart series
-        use the same adapters as miningos-app-ui. Every chart example below (except &quot;Default
-        adapter colors&quot;) passes a demo-local <code>getDatasetBorderColor</code> so each series
-        in a card gets its own color; production apps can omit it and keep adapter defaults.
+        use the same adapters as mdk. Every chart example below (except &quot;Default adapter
+        colors&quot;) passes a demo-local <code>getDatasetBorderColor</code> so each series in a
+        card gets its own color; production apps can omit it and keep adapter defaults.
       </p>
 
       <div style={{ display: 'grid', gap: '2rem', gridTemplateColumns: '1fr' }}>
